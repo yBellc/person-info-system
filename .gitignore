@@ -30,7 +30,62 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# ===== 临时文件 =====
+# ===== 运行时目录（保留目录、排除内容） =====
+backend/uploads/*
+!backend/uploads/.gitkeep
+tools/
+
+# ===== 个人/过程文件 =====
+*.pptx
+*.docx
+~$*
+handover.zip
+*.zip
+AUTO_BUILD.*
+DEPLOY_CHECK.bat
+FIREWALL_OPEN.bat
+FIX_ACCOUNTS.*
+GET_ERROR.bat
+REBUILD.*
+RESTART_SERVER.*
+RUN_TEST.bat
+SERVICE_STATUS.bat
+UNINSTALL_SERVICE.bat
+WATCHDOG_RUN.bat
+_run_*.bat
+_start_*.cmd
+deploy_preflight.py
+deploy_watchdog.py
+quick_start.bat
+test_report.json
+check_ppt.py
+check_routes.py
+make_ppt.py
+make_ppt_doc_ml.py
+html转pdf.py
+get_build_error.py
+fix_counts.py
+test_clearance.py
+test_routes2.py
+test_upload.py
+e2e_test.py
+multi_role_test.py
+build_log.txt
+launcher_log.txt
+test_data_log.txt
+vite_build_output.txt
+watchdog_log.txt
+汇报讲稿*
+使用说明.txt
+测试账号密码清单.docx
+杨琛要好好工作/
+【双击创建测试账号】.bat
+一键启动.bat
+创建测试账号.py
+启动服务.bat
+
+# ===== 临时调试文件 =====
 *_tmp.py
 *_result.txt
-*_test.txt
+_api_test.txt
+_status_test.txt
