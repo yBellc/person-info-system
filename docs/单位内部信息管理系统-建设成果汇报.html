@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>单位内部信息管理系统 — 建设成果汇报</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  color: #333; line-height: 1.8; font-size: 15px;
+  background: #fff;
+}
+@page { size: A4; margin: 18mm 15mm; }
+
+/* ===== 封面 ===== */
+.cover {
+  text-align: center; padding: 140px 40px 60px; page-break-after: always;
+}
+.cover .logo-block {
+  width: 120px; height: 120px; margin: 0 auto 40px;
+  background: linear-gradient(135deg, #409eff 0%, #2563eb 100%);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 50px; font-weight: bold;
+  box-shadow: 0 8px 24px rgba(64, 158, 255, 0.3);
+}
+.cover h1 { font-size: 34px; color: #1a1a1a; margin-bottom: 14px; font-weight: 700; }
+.cover .subtitle { font-size: 18px; color: #666; margin-bottom: 36px; letter-spacing: 1px; }
+.cover .meta {
+  display: inline-block; padding: 10px 28px;
+  background: #409eff; color: #fff; border-radius: 28px;
+  font-size: 15px; letter-spacing: 2px;
+}
+.cover .footer-info {
+  margin-top: 100px; color: #999; font-size: 13px; line-height: 2.2;
+}
+
+/* ===== 目录 ===== */
+.toc { page-break-after: always; padding: 30px 0; }
+.toc h2 { font-size: 24px; margin-bottom: 20px; color: #1a1a1a; border-bottom: 3px solid #409eff; padding-bottom: 10px; }
+.toc ul { list-style: none; }
+.toc li { padding: 6px 0; font-size: 15px; }
+.toc li.chapter { font-weight: bold; color: #409eff; margin-top: 12px; font-size: 16px; }
+.toc li.section { padding-left: 28px; color: #555; }
+
+/* ===== 通用章节 ===== */
+.chapter { page-break-before: always; }
+.chapter-title {
+  font-size: 22px; color: #1a1a1a; margin-bottom: 20px;
+  padding: 14px 18px; background: linear-gradient(90deg, #f0f7ff 0%, #fff 100%);
+  border-left: 5px solid #409eff; border-radius: 4px;
+  font-weight: 700;
+}
+.section-title {
+  font-size: 18px; color: #303133; margin: 26px 0 14px;
+  padding-bottom: 8px; border-bottom: 2px solid #e4e7ed;
+  font-weight: 600;
+}
+.subsection-title { font-size: 16px; color: #303133; margin: 18px 0 10px; font-weight: 600; }
+
+p { margin-bottom: 10px; text-align: justify; }
+ul, ol { margin: 8px 0 14px 26px; }
+li { margin-bottom: 5px; }
+
+/* ===== 数据统计卡片 ===== */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin: 18px 0 24px;
+}
+.stat-card {
+  background: linear-gradient(135deg, #f5f9ff 0%, #eef2ff 100%);
+  border-radius: 10px; padding: 18px 14px;
+  border: 1px solid #d0e8ff;
+  text-align: center;
+}
+.stat-card .num {
+  font-size: 30px; font-weight: 700; color: #409eff;
+  margin-bottom: 6px;
+}
+.stat-card .label { font-size: 13px; color: #606266; }
+.stat-card.green .num { color: #67c23a; }
+.stat-card.green { background: linear-gradient(135deg, #f0f9eb 0%, #e1f3d8 100%); border-color: #c2e7b0; }
+.stat-card.orange .num { color: #e6a23c; }
+.stat-card.orange { background: linear-gradient(135deg, #fdf6ec 0%, #faecd8 100%); border-color: #f5dab1; }
+.stat-card.red .num { color: #f56c6c; }
+.stat-card.red { background: linear-gradient(135deg, #fef0f0 0%, #fde2e2 100%); border-color: #fbc4c4; }
+
+/* ===== 模块卡片 ===== */
+.module-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px; margin: 18px 0 24px;
+}
+.module-card {
+  border: 1px solid #e4e7ed; border-radius: 10px;
+  overflow: hidden; background: #fff;
+}
+.module-header {
+  padding: 12px 16px; background: #409eff;
+  color: #fff; font-weight: 600; font-size: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.module-header.orange { background: #e6a23c; }
+.module-header.green { background: #67c23a; }
+.module-header.purple { background: #909399; }
+.module-header.red { background: #f56c6c; }
+.module-header.teal { background: #13c2c2; }
+.module-header.pink { background: #eb2f96; }
+.module-body { padding: 14px 16px; }
+.module-body h4 { font-size: 14px; color: #606266; margin-bottom: 8px; }
+.feature-tag {
+  display: inline-block; padding: 3px 10px; margin: 3px 4px 3px 0;
+  background: #f4f4f5; color: #606266; border-radius: 12px;
+  font-size: 12.5px;
+}
+.feature-tag.blue { background: #ecf5ff; color: #409eff; }
+.feature-tag.green { background: #f0f9eb; color: #67c23a; }
+.feature-tag.orange { background: #fdf6ec; color: #e6a23c; }
+.feature-tag.red { background: #fef0f0; color: #f56c6c; }
+.feature-tag.purple { background: #f4f4f5; color: #909399; }
+
+/* ===== 亮点展示 ===== */
+.highlight-box {
+  margin: 16px 0; padding: 18px 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ecf5ff 100%);
+  border: 1px solid #d0e8ff; border-radius: 10px;
+}
+.highlight-box h4 { color: #409eff; font-size: 16px; margin-bottom: 12px; }
+.highlight-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px;
+}
+.highlight-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px;
+}
+.highlight-icon {
+  flex-shrink: 0; width: 24px; height: 24px;
+  background: #409eff; color: #fff;
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: bold;
+}
+.highlight-icon.green { background: #67c23a; }
+.highlight-icon.orange { background: #e6a23c; }
+.highlight-icon.red { background: #f56c6c; }
+.highlight-icon.teal { background: #13c2c2; }
+
+/* ===== 表格 ===== */
+.data-table {
+  width: 100%; border-collapse: collapse; margin: 14px 0;
+  font-size: 14px;
+}
+.data-table th, .data-table td {
+  border: 1px solid #e4e7ed; padding: 10px 12px;
+  text-align: left;
+}
+.data-table th {
+  background: #f5f7fa; font-weight: 600; color: #303133;
+  white-space: nowrap;
+}
+.data-table tr:nth-child(even) td { background: #fafafa; }
+
+/* ===== 时间线 ===== */
+.timeline { margin: 16px 0; }
+.timeline-item {
+  display: flex; gap: 14px; margin-bottom: 14px;
+  padding: 12px 14px; background: #fafafa; border-radius: 8px;
+  border-left: 3px solid #409eff;
+}
+.timeline-date {
+  flex-shrink: 0; color: #67c23a; font-weight: 600; min-width: 80px;
+}
+.timeline-content h4 { color: #303133; margin-bottom: 4px; font-size: 14.5px; }
+.timeline-content p { color: #606266; font-size: 13.5px; margin: 0; }
+
+/* ===== 对比表 ===== */
+.compare-note {
+  background: #f0f9eb; border: 1px solid #c2e7b0;
+  border-radius: 8px; padding: 12px 16px;
+  margin: 14px 0; font-size: 14px;
+}
+
+/* ===== 结尾 ===== */
+.end-note {
+  text-align: center; padding: 60px 20px;
+  color: #909399; font-size: 14px;
+}
+.end-note .big {
+  font-size: 22px; color: #409eff; font-weight: 700;
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- ======== 封面 ======== -->
+<div class="cover">
+  <div class="logo-block">信</div>
+  <h1>单位内部信息管理系统</h1>
+  <div class="subtitle">建设成果汇报 · 功能总览</div>
+  <div class="meta">数 字 化 · 智 能 化 · 精 准 化</div>
+  <div class="footer-info">
+    汇报对象：单位领导<br>
+    汇报日期：2026年8月11日<br>
+    版本号：V1.0 · 正式部署版
+  </div>
+</div>
+
+<!-- ======== 目录 ======== -->
+<div class="toc">
+  <h2>目 录</h2>
+  <ul>
+    <li class="chapter">一、项目背景与建设目标</li>
+    <li class="section">1.1 建设背景</li>
+    <li class="section">1.2 建设目标</li>
+    <li class="chapter">二、系统整体架构</li>
+    <li class="section">2.1 技术架构</li>
+    <li class="section">2.2 部署方式</li>
+    <li class="chapter">三、核心功能模块</li>
+    <li class="section">3.1 人员档案管理模块</li>
+    <li class="section">3.2 智能简历识别模块（新增）</li>
+    <li class="section">3.3 OA流程审批引擎</li>
+    <li class="section">3.4 组织架构管理</li>
+    <li class="section">3.5 人事批量注册与账号管理</li>
+    <li class="section">3.6 工作台与待办中心</li>
+    <li class="section">3.7 安全合规体系</li>
+    <li class="chapter">四、系统亮点与创新</li>
+    <li class="section">4.1 智能简历识别：自动提取+批量建档</li>
+    <li class="section">4.2 动态审批路由：自动匹配审批人</li>
+    <li class="section">4.3 多级权限体系：分级管理</li>
+    <li class="section">4.4 安全加固：账号安全与审计</li>
+    <li class="chapter">五、功能权限与角色划分</li>
+    <li class="chapter">六、后续建设规划</li>
+  </ul>
+</div>
+
+<!-- ======== 第1章 项目背景 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第一章　项目背景与建设目标</div>
+
+  <div class="section-title">1.1 建设背景</div>
+  <p>当前单位正处于数字化转型关键阶段，原有办公流程以手工、纸质为主，存在以下突出问题：</p>
+  <ul>
+    <li><strong>人员档案管理混乱</strong>：员工信息分散在Excel、Word、纸质档案中，查询、更新、统计极其不便</li>
+    <li><strong>流程审批效率低</strong>：请假、报销、用章、出差等申请以纸质单据流转，签字耗时、易遗失、追溯困难</li>
+    <li><strong>新员工建档工作量大</strong>：人事逐个录入简历信息，费时费力且易出错</li>
+    <li><strong>数据统计无法支撑决策</strong>：无法实时了解人员结构、部门分布、休假情况等关键数据</li>
+    <li><strong>账号与权限管理不规范</strong>：缺乏统一账号体系、权限控制和登录审计</li>
+  </ul>
+  <p>基于以上痛点，立项建设"单位内部信息管理系统"，实现<strong>人员档案数字化、流程审批电子化、人事管理智能化、数据统计可视化</strong>的四大目标。</p>
+
+  <div class="section-title">1.2 建设目标</div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="num">100%</div>
+      <div class="label">人员档案电子化</div>
+    </div>
+    <div class="stat-card green">
+      <div class="num">4类</div>
+      <div class="label">OA流程线上审批</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="num">5级</div>
+      <div class="label">角色权限体系</div>
+    </div>
+    <div class="stat-card red">
+      <div class="num">AI识别</div>
+      <div class="label">智能简历自动建档</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== 第2章 整体架构 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第二章　系统整体架构</div>
+
+  <div class="section-title">2.1 技术架构</div>
+  <table class="data-table">
+    <tr><th>层级</th><th>技术选型</th><th>说明</th></tr>
+    <tr><td>前端</td><td>Vue 3 + Vite + Element Plus + Pinia + ECharts</td><td>响应式单页应用，打包后由后端托管</td></tr>
+    <tr><td>后端</td><td>Python FastAPI + SQLAlchemy + Pydantic</td><td>高性能异步框架，API规范严格</td></tr>
+    <tr><td>数据库</td><td>SQLite（可无缝升级 MySQL/PostgreSQL）</td><td>默认零配置，支持单机及内网部署</td></tr>
+    <tr><td>文档解析</td><td>python-docx + openpyxl + 自定义智能引擎</td><td>简历智能识别核心</td></tr>
+    <tr><td>流程引擎</td><td>自研动态审批引擎 + 多节点审批链</td><td>支持逐级审批、退回修改、抄送</td></tr>
+  </table>
+
+  <div class="section-title">2.2 部署方式</div>
+  <p>系统采用<strong>单进程一体化部署</strong>方案，前后端不拆分，运维简单，特别适用于单位内网环境：</p>
+  <ul>
+    <li><strong>本地访问</strong>：浏览器打开 <code>http://127.0.0.1:8000</code></li>
+    <li><strong>内网部署</strong>：内网服务器运行，员工通过 <code>http://服务器IP:8000</code> 访问</li>
+    <li><strong>无需分别启动前端后端</strong>：单一 Python 进程即可完整运行</li>
+    <li><strong>零外网依赖</strong>：全部功能离线可用，适配单位仅内网的特点</li>
+  </ul>
+</div>
+
+<!-- ======== 第3章 核心功能模块 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第三章　核心功能模块</div>
+
+  <div class="section-title">3.1 人员档案管理模块</div>
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header">📄 基本信息档案</div>
+      <div class="module-body">
+        <h4>覆盖人事档案全部字段</h4>
+        <span class="feature-tag blue">姓名性别</span>
+        <span class="feature-tag blue">身份证号</span>
+        <span class="feature-tag blue">出生日期</span>
+        <span class="feature-tag blue">民族</span>
+        <span class="feature-tag blue">籍贯/出生地</span>
+        <span class="feature-tag blue">政治面貌</span>
+        <span class="feature-tag blue">入党日期</span>
+        <span class="feature-tag blue">联系方式</span>
+        <span class="feature-tag blue">紧急联系人</span>
+        <span class="feature-tag blue">学历/学位</span>
+        <span class="feature-tag blue">毕业院校</span>
+        <span class="feature-tag blue">专业</span>
+        <span class="feature-tag blue">婚姻状况</span>
+        <span class="feature-tag blue">家庭住址</span>
+        <span class="feature-tag blue">参加工作日期</span>
+        <span class="feature-tag blue">入职日期</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header orange">👨‍👩‍👧 家庭成员与社会关系</div>
+      <div class="module-body">
+        <h4>完整家庭情况记录</h4>
+        <span class="feature-tag orange">姓名</span>
+        <span class="feature-tag orange">关系称谓</span>
+        <span class="feature-tag orange">工作单位</span>
+        <span class="feature-tag orange">职务</span>
+        <span class="feature-tag orange">联系电话</span>
+        <span class="feature-tag orange">政治面貌</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header green">🎓 教育经历</div>
+      <div class="module-body">
+        <h4>从高中到最高学历</h4>
+        <span class="feature-tag green">起始日期</span>
+        <span class="feature-tag green">结束日期</span>
+        <span class="feature-tag green">学校名称</span>
+        <span class="feature-tag green">专业</span>
+        <span class="feature-tag green">学历/学位</span>
+        <span class="feature-tag green">证明人</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header purple">💼 工作经历</div>
+      <div class="module-body">
+        <h4>完整履历可追溯</h4>
+        <span class="feature-tag purple">起始日期</span>
+        <span class="feature-tag purple">结束日期</span>
+        <span class="feature-tag purple">工作单位</span>
+        <span class="feature-tag purple">职务/岗位</span>
+        <span class="feature-tag purple">证明人</span>
+        <span class="feature-tag purple">离职原因</span>
+      </div>
+    </div>
+  </div>
+  <div class="compare-note">✅ 所有档案字段均支持自定义扩展，可根据单位实际需要新增"奖励情况""处罚记录""培训经历"等字段，无需修改代码。</div>
+
+  <div class="section-title">3.2 智能简历识别模块（新增核心功能）</div>
+  <div class="highlight-box">
+    <h4>🤖 AI关键字引擎 + 正则识别，无需额外付费对接大模型</h4>
+    <div class="highlight-grid">
+      <div class="highlight-item">
+        <div class="highlight-icon">1</div>
+        <div><strong>多格式兼容</strong>：同时支持 Word（.docx）、Excel（.xlsx）两种简历格式</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon green">2</div>
+        <div><strong>双引擎识别</strong>：表格布局解析 + 段落文本正则，覆盖90%以上简历模板</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon orange">3</div>
+        <div><strong>字段自动提取</strong>：姓名、身份证、学历、电话等30+字段自动抽取</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon red">4</div>
+        <div><strong>子表识别</strong>：家庭成员、教育经历、工作经历等列表自动拆分入库</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon teal">5</div>
+        <div><strong>员工自助</strong>：个人中心上传简历 → 预览识别 → 一键填充个人信息</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">6</div>
+        <div><strong>人事批量</strong>：上传简历压缩包 → 智能识别 → 批量创建人员档案+账号</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-title">应用场景1：员工自助完善个人信息</div>
+  <ol>
+    <li>员工登录系统 → 进入"我的信息" → 点击<strong>"上传简历自动填充"</strong></li>
+    <li>上传本人简历文档（.docx / .xlsx） → 点击<strong>"智能识别"</strong></li>
+    <li>系统弹出识别结果预览：显示识别到的30+字段、家庭成员/教育经历数量</li>
+    <li>员工可选择：<strong>"仅填充空字段"</strong>（保留已填信息） 或 <strong>"覆盖已有值并保存"</strong></li>
+  </ol>
+
+  <div class="subsection-title">应用场景2：人事批量导入简历建档</div>
+  <ol>
+    <li>人事管理员 → 进入<strong>"人事账号管理 → 简历导入"</strong>标签页</li>
+    <li>选择目标单位、统一部门/岗位、初始密码模式（身份证后6位/统一密码）</li>
+    <li>批量拖拽上传员工简历文件（支持多文件同时上传）</li>
+    <li>点击<strong>"预览识别结果"</strong> → 逐个查看识别出的字段，确认无误</li>
+    <li>点击<strong>"一键创建账号"</strong> → 系统自动完成建档+创建账号+自动生成用户名</li>
+    <li>成功/失败列表即时展示，失败可查看原因（如身份证冲突）</li>
+  </ol>
+
+  <div class="subsection-title">识别能力数据参考</div>
+  <table class="data-table">
+    <tr><th>识别类别</th><th>识别字段</th><th>识别率（参考）</th></tr>
+    <tr><td>基本信息</td><td>姓名、性别、身份证、民族、籍贯、出生日期、政治面貌</td><td>95%以上</td></tr>
+    <tr><td>联系方式</td><td>手机号、办公电话、紧急联系人、家庭住址</td><td>90%以上</td></tr>
+    <tr><td>学历背景</td><td>最高学历、学位、毕业院校、专业、毕业时间</td><td>85%以上</td></tr>
+    <tr><td>工作信息</td><td>部门、岗位、职级、参加工作日期、入职日期</td><td>80%以上</td></tr>
+    <tr><td>家庭成员</td><td>关系、姓名、工作单位、电话</td><td>75%以上</td></tr>
+    <tr><td>教育/工作经历</td><td>起止日期、单位/学校、职务/专业</td><td>70%以上</td></tr>
+  </table>
+
+  <div class="section-title">3.3 OA流程审批引擎</div>
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header">📝 请假申请</div>
+      <div class="module-body">
+        <h4>动态匹配审批链路 + 假期余额自动扣除</h4>
+        <span class="feature-tag blue">年假</span>
+        <span class="feature-tag blue">事假</span>
+        <span class="feature-tag blue">病假</span>
+        <span class="feature-tag blue">婚假</span>
+        <span class="feature-tag blue">产假</span>
+        <span class="feature-tag blue">陪产假</span>
+        <span class="feature-tag blue">丧假</span>
+        <span class="feature-tag blue">路程假</span>
+        <span class="feature-tag red">余额校验</span>
+        <span class="feature-tag green">动态审批人</span>
+        <span class="feature-tag orange">退回修改</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header orange">💰 费用报销</div>
+      <div class="module-body">
+        <h4>多级审批：部门领导 → 人事 → 财务</h4>
+        <span class="feature-tag orange">差旅费</span>
+        <span class="feature-tag orange">办公费</span>
+        <span class="feature-tag orange">招待费</span>
+        <span class="feature-tag orange">培训费</span>
+        <span class="feature-tag orange">其他</span>
+        <span class="feature-tag purple">多级明细</span>
+        <span class="feature-tag green">动态审批链</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header red">🔖 用章申请</div>
+      <div class="module-body">
+        <h4>全类型印章：公章、法人章、合同章、财务章</h4>
+        <span class="feature-tag red">公章</span>
+        <span class="feature-tag red">合同专用章</span>
+        <span class="feature-tag red">财务专用章</span>
+        <span class="feature-tag red">法人名章</span>
+        <span class="feature-tag red">发票专用章</span>
+        <span class="feature-tag purple">用章事由</span>
+        <span class="feature-tag green">逐级审批</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header teal">✈️ 出差申请</div>
+      <div class="module-body">
+        <h4>完整出差信息记录</h4>
+        <span class="feature-tag">出差地点</span>
+        <span class="feature-tag">起止日期</span>
+        <span class="feature-tag">出差事由</span>
+        <span class="feature-tag">交通工具</span>
+        <span class="feature-tag">交通费用</span>
+        <span class="feature-tag">住宿费用</span>
+        <span class="feature-tag">其他费用</span>
+        <span class="feature-tag green">动态审批</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-title">审批核心特性</div>
+  <ul>
+    <li><strong>动态匹配审批人</strong>：根据申请人所在部门，自动找到对应的部门负责人、人事、财务、单位管理员进行审批，无需为每个流程手动指定审批人</li>
+    <li><strong>逐级审批</strong>：按顺序一级一级通过，全部通过后流程结束</li>
+    <li><strong>退回修改</strong>：审批人发现信息有误可<strong>退回修改</strong>，申请人修改后重新提交，原审批链继续执行，无需重新开始</li>
+    <li><strong>审批时间轴</strong>：完整记录每一级审批的审批人、审批时间、审批意见，可追溯</li>
+    <li><strong>主动撤回</strong>：申请人发现错误可在审批中主动撤回申请</li>
+    <li><strong>假期余额联动</strong>：请假审批通过后自动扣除年假/病假/产假余额，不足时拒绝提交</li>
+  </ul>
+
+  <div class="section-title">3.4 组织架构管理</div>
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header green">🏢 部门管理</div>
+      <div class="module-body">
+        <span class="feature-tag green">多级树状部门</span>
+        <span class="feature-tag green">部门负责人</span>
+        <span class="feature-tag green">上级部门关联</span>
+        <span class="feature-tag green">部门启用/停用</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header">📋 岗位管理</div>
+      <div class="module-body">
+        <span class="feature-tag blue">岗位创建</span>
+        <span class="feature-tag blue">岗位职责</span>
+        <span class="feature-tag blue">岗位等级</span>
+        <span class="feature-tag blue">所属部门</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header orange">📊 职级管理</div>
+      <div class="module-body">
+        <span class="feature-tag orange">职级序列</span>
+        <span class="feature-tag orange">职级级别</span>
+        <span class="feature-tag orange">职级说明</span>
+        <span class="feature-tag orange">排序优先级</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header purple">👤 人员岗位</div>
+      <div class="module-body">
+        <span class="feature-tag purple">一人多岗</span>
+        <span class="feature-tag purple">岗位期限</span>
+        <span class="feature-tag purple">岗位排序</span>
+        <span class="feature-tag purple">兼职标记</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">3.5 人事批量注册与账号管理</div>
+  <div class="subsection-title">整体流程（人事操作）</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Step 1</div>
+      <div class="timeline-content">
+        <h4>导入员工名单</h4>
+        <p>人事在"名单管理"中手动添加或批量导入员工姓名+身份证号，建立待注册名单池</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Step 2</div>
+      <div class="timeline-content">
+        <h4>批量创建账号 / 智能简历导入</h4>
+        <p>方式A：勾选待注册名单 → 批量创建账号（初始密码身份证后6位）<br>
+           方式B：上传简历文件 → 智能识别 → 批量创建档案+账号（新增）</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Step 3</div>
+      <div class="timeline-content">
+        <h4>通知员工登录</h4>
+        <p>告知员工用户名与初始密码，员工首次登录后强制修改密码，自行完善信息</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Step 4</div>
+      <div class="timeline-content">
+        <h4>账号全生命周期管理</h4>
+        <p>管理员可查看账号列表、重置密码、启用/停用账号，离职人员一键停用</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-title">账号管理核心能力</div>
+  <ul>
+    <li><strong>用户名自动生成</strong>：优先手机号，其次姓名拼音+序号</li>
+    <li><strong>首次登录强制改密</strong>：初始密码使用一次后必须修改，保障安全</li>
+    <li><strong>身份证校验</strong>：18位身份证格式校验+校验码验证，重号自动拦截</li>
+    <li><strong>单位层级管控</strong>：超管管全单位，单位管理员仅管本单位及下属单位</li>
+    <li><strong>申请管理员通道</strong>：普通员工可在线申请成为单位管理员，超管后台审批</li>
+  </ul>
+
+  <div class="section-title">3.6 工作台与待办中心</div>
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-header">📊 数据看板</div>
+      <div class="module-body">
+        <span class="feature-tag blue">总人数</span>
+        <span class="feature-tag blue">在职/停用</span>
+        <span class="feature-tag blue">部门分布</span>
+        <span class="feature-tag blue">学历分布</span>
+        <span class="feature-tag blue">年龄分布</span>
+        <span class="feature-tag blue">党龄/工龄</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header orange">📌 待办事项</div>
+      <div class="module-body">
+        <span class="feature-tag orange">待我审批</span>
+        <span class="feature-tag orange">我发起的流程</span>
+        <span class="feature-tag orange">待处理任务</span>
+        <span class="feature-tag orange">完成状态</span>
+        <span class="feature-tag orange">优先级排序</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header green">📣 通知公告</div>
+      <div class="module-body">
+        <span class="feature-tag green">系统通知</span>
+        <span class="feature-tag green">审批通知</span>
+        <span class="feature-tag green">公告发布（管理员）</span>
+        <span class="feature-tag green">已读/未读标记</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header red">📑 报表统计</div>
+      <div class="module-body">
+        <span class="feature-tag red">人员信息导出</span>
+        <span class="feature-tag red">花名册报表</span>
+        <span class="feature-tag red">按单位/部门汇总</span>
+        <span class="feature-tag red">Excel格式下载</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">3.7 安全合规体系</div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="num">8位+</div>
+      <div class="label">密码最低长度</div>
+    </div>
+    <div class="stat-card red">
+      <div class="num">5次</div>
+      <div class="label">连续失败 → 锁定30分钟</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="num">90天</div>
+      <div class="label">密码过期周期</div>
+    </div>
+    <div class="stat-card green">
+      <div class="num">5次</div>
+      <div class="label">历史密码不可复用</div>
+    </div>
+  </div>
+  <ul>
+    <li><strong>密码强度</strong>：大写字母、小写字母、数字、特殊字符4类需至少包含3类（如 Abc@1234）</li>
+    <li><strong>账号锁定</strong>：连续5次登录失败自动锁定账号30分钟，超期后自动解锁</li>
+    <li><strong>密码过期</strong>：每90天强制更换一次密码，过期后首次登录强制修改</li>
+    <li><strong>密码历史</strong>：最近5次使用过的密码不可重复使用</li>
+    <li><strong>登录审计</strong>：完整记录所有登录成功/失败日志，含IP地址、User-Agent、失败原因</li>
+    <li><strong>操作审计</strong>：建档、改密、启用停用、创建账号等关键操作全部留痕</li>
+    <li><strong>身份证脱敏</strong>：列表页显示身份证仅前6位+后4位，中间8位加密显示</li>
+  </ul>
+</div>
+
+<!-- ======== 第4章 系统亮点 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第四章　系统亮点与创新</div>
+
+  <div class="section-title">4.1 智能简历识别：自动提取+批量建档</div>
+  <div class="compare-note">
+    <strong>🚀 效率提升对比</strong>：传统人事逐个录入需10-15分钟/人 → 智能识别仅需5-10秒/人，整体效率提升100倍。批量导入100人从1天缩短至10分钟完成。
+  </div>
+  <ul>
+    <li><strong>无需AI大模型，纯本地引擎</strong>：基于关键字匹配+位置启发+正则提取的混合识别引擎，纯离线运行，不依赖任何第三方API，完全符合内网安全要求</li>
+    <li><strong>双重覆盖：表格+段落</strong>：传统方案只能解析表格简历，本系统同时支持段落格式简历，实际兼容率从60%提升至90%以上</li>
+    <li><strong>字段智能标准化</strong>："政治面貌"自动将"党员"标准化为"中共党员"，"性别"中英文自动归一，"出生年月"6种日期格式自动统一为YYYY-MM-DD</li>
+    <li><strong>误识别防护</strong>：内置否定前缀机制，避免把"家庭成员姓名""配偶职务"误提取为员工本人的姓名和职务</li>
+    <li><strong>双向应用</strong>：既支持员工个人上传简历自助填档案，也支持人事批量导入简历一键创建账号+档案</li>
+  </ul>
+
+  <div class="section-title">4.2 动态审批路由：自动匹配审批人</div>
+  <p>传统流程系统需要管理员为每个流程手动配置审批人，人员变动后配置即失效。本系统实现<strong>规则化自动匹配</strong>：</p>
+  <table class="data-table">
+    <tr><th>节点类型</th><th>匹配规则</th><th>说明</th></tr>
+    <tr><td>部门负责人</td><td><code>dept_manager</code></td><td>根据申请人所在部门，自动查找部门负责人审批</td></tr>
+    <tr><td>人事审核</td><td><code>role:hr</code></td><td>自动匹配单位内拥有人事角色的账号</td></tr>
+    <tr><td>财务审核</td><td><code>role:finance</code></td><td>自动匹配单位内拥有财务角色的账号</td></tr>
+    <tr><td>单位管理员</td><td><code>unit_admin</code></td><td>自动匹配单位管理员进行终审</td></tr>
+    <tr><td>指定人员</td><td><code>fixed:{user_id}</code></td><td>固定审批人（适用于特殊场景）</td></tr>
+  </table>
+  <p>优势：部门负责人、人事、财务等人员变动后，审批链<strong>自动生效</strong>，无需修改任何流程配置。</p>
+
+  <div class="section-title">4.3 多级权限体系：分级管理</div>
+  <table class="data-table">
+    <tr><th>角色</th><th>权限范围</th><th>典型使用场景</th></tr>
+    <tr><td>超级管理员</td><td>全系统所有功能，可管理全部单位</td><td>系统最高权限，仅2-3人持有</td></tr>
+    <tr><td>单位管理员</td><td>本单位及下属单位：人员档案、名单、报表、审批</td><td>各单位HR负责人、办公室主任</td></tr>
+    <tr><td>部门领导</td><td>本部门人员信息维护、本部门发起流程的第一级审批</td><td>各科室/部门负责人</td></tr>
+    <tr><td>人事/财务人员</td><td>对应审批节点的审批权限</td><td>人事部门、财务部门专岗</td></tr>
+    <tr><td>普通员工</td><td>查看/修改本人信息，发起流程，查看本人待办</td><td>全体在职员工</td></tr>
+  </table>
+
+  <div class="section-title">4.4 安全加固：账号安全与审计</div>
+  <ul>
+    <li><strong>完整日志审计</strong>：登录日志（成功/失败+IP+浏览器）、操作日志（改密/建档/启停账号等），审计数据不可篡改</li>
+    <li><strong>软删除机制</strong>：人员档案、账号、流程均为软删除（标记is_deleted），误删可恢复</li>
+    <li><strong>敏感字段脱敏</strong>：身份证号除详情页外一律脱敏显示</li>
+    <li><strong>首次登录强制改密</strong>：人事批量创建的账号，员工首次登录必须修改密码，避免初始密码泄露风险</li>
+  </ul>
+</div>
+
+<!-- ======== 第5章 功能权限速查 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第五章　功能权限与角色划分</div>
+  <table class="data-table">
+    <tr>
+      <th>功能模块</th><th>普通员工</th><th>部门领导</th><th>人事/财务</th><th>单位管理员</th><th>超级管理员</th>
+    </tr>
+    <tr>
+      <td>查看/修改本人信息</td>
+      <td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>上传简历自动填充</td>
+      <td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>发起请假/报销/用章/出差</td>
+      <td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>审批本部门流程</td>
+      <td>—</td><td>✅</td><td>部分</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>人事/财务节点审批</td>
+      <td>—</td><td>—</td><td>✅</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>维护本单位人员档案</td>
+      <td>—</td><td>—</td><td>部分</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>名单管理/批量创建账号</td>
+      <td>—</td><td>—</td><td>部分</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>简历批量导入建档</td>
+      <td>—</td><td>—</td><td>—</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>组织架构管理（部门/岗位/职级）</td>
+      <td>—</td><td>—</td><td>—</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>账号启用停用/重置密码</td>
+      <td>—</td><td>—</td><td>—</td><td>✅</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>单位管理（创建单位/单位管理员）</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td><td>✅</td>
+    </tr>
+    <tr>
+      <td>审批管理员申请</td>
+      <td>—</td><td>—</td><td>—</td><td>—</td><td>✅</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ======== 第6章 后续规划 ======== -->
+<div class="chapter">
+  <div class="chapter-title">第六章　后续建设规划</div>
+
+  <table class="data-table">
+    <tr><th>优先级</th><th>规划方向</th><th>预期价值</th></tr>
+    <tr>
+      <td>🔴 高</td>
+      <td>移动端适配 / 微信小程序接入</td>
+      <td>员工可在手机上发起审批、处理待办，使用频率进一步提升</td>
+    </tr>
+    <tr>
+      <td>🔴 高</td>
+      <td>工资薪酬管理模块</td>
+      <td>对接人员档案+岗位职级，实现薪酬自动核算、工资条发放</td>
+    </tr>
+    <tr>
+      <td>🟠 中</td>
+      <td>培训管理模块</td>
+      <td>培训计划、学时记录、培训档案与人员档案联动</td>
+    </tr>
+    <tr>
+      <td>🟠 中</td>
+      <td>绩效考核模块</td>
+      <td>年度/季度考核、自评-互评-上级评、考核结果档案留痕</td>
+    </tr>
+    <tr>
+      <td>🟠 中</td>
+      <td>合同管理模块</td>
+      <td>员工聘用合同、到期提醒、续签流程电子化</td>
+    </tr>
+    <tr>
+      <td>🟡 低</td>
+      <td>对接统一身份认证（CAS/LDAP）</td>
+      <td>与单位现有OA/门户系统单点登录打通</td>
+    </tr>
+    <tr>
+      <td>🟡 低</td>
+      <td>数据库升级为MySQL/PostgreSQL</td>
+      <td>支撑更大规模并发与数据量，支持热备份</td>
+    </tr>
+  </table>
+
+  <div class="end-note">
+    <div class="big">以数智化赋能单位管理</div>
+    <div>从人员档案数字化到流程审批电子化，再到智能简历识别自动化</div>
+    <div style="margin-top: 6px;">系统将持续迭代优化，为单位数字化转型提供坚实支撑</div>
+  </div>
+</div>
+
+</body>
+</html>

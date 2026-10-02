@@ -1,0 +1,333 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: #f0f2f5;
+}
+
+/* ===== 军事风格主题变量 ===== */
+:root {
+  /* 主色 */
+  --military-dark: #1a2b1e;
+  --military-primary: #2d5a27;
+  --military-primary-light: #3a7232;
+  --military-accent: #c4a000;
+  --military-accent-light: #d4b010;
+  --military-bg: #f5f6f0;
+  --military-card: #ffffff;
+  --military-text: #1a2b1e;
+  --military-text-secondary: #5a6b5e;
+  --military-border: #d4d8ce;
+  --military-danger: #b71c1c;
+  --military-warning: #e65100;
+  --military-success: #2e7d32;
+  --military-info: #1565c0;
+
+  /* 阴影层次 */
+  --shadow-xs: 0 1px 2px rgba(26, 43, 30, 0.04);
+  --shadow-sm: 0 2px 8px rgba(26, 43, 30, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 43, 30, 0.08);
+  --shadow-lg: 0 8px 32px rgba(26, 43, 30, 0.12);
+  --shadow-xl: 0 16px 48px rgba(26, 43, 30, 0.16);
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* 过渡 */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== 通用页面容器 ===== */
+.page-container {
+  padding: 20px;
+  animation: pageIn 0.3s ease;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 章节标题（军事风带左侧色条） ===== */
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--military-dark);
+  border-left: 4px solid var(--military-primary);
+  padding-left: 10px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 40px;
+  height: 2px;
+  background: var(--military-accent);
+  opacity: 0.6;
+}
+
+/* ===== Element Plus 深度覆盖 ===== */
+
+/* 主按钮 */
+.el-button--primary {
+  --el-button-bg-color: var(--military-primary) !important;
+  --el-button-border-color: var(--military-primary) !important;
+  --el-button-hover-bg-color: var(--military-primary-light) !important;
+  --el-button-hover-border-color: var(--military-primary-light) !important;
+  --el-button-active-bg-color: #1e3d1a !important;
+  --el-button-active-border-color: #1e3d1a !important;
+  transition: all var(--transition-base) !important;
+}
+
+.el-button {
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.el-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.el-button:active {
+  transform: translateY(0);
+}
+
+/* 卡片 */
+.el-card {
+  --el-card-border-color: var(--military-border) !important;
+  --el-card-border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: box-shadow var(--transition-base), transform var(--transition-base) !important;
+}
+
+.el-card:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.el-card__header {
+  font-weight: 600 !important;
+  color: var(--military-dark) !important;
+  border-bottom: 2px solid var(--military-primary) !important;
+  background: linear-gradient(90deg, rgba(45, 90, 39, 0.05) 0%, transparent 100%) !important;
+}
+
+/* 菜单激活项 */
+.el-menu-item.is-active {
+  background-color: var(--military-primary) !important;
+  color: #fff !important;
+}
+
+/* 标签 */
+.el-tag {
+  border-radius: var(--radius-sm) !important;
+  font-weight: 500;
+}
+
+/* 表格 */
+.el-table {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.el-table th.el-table__cell {
+  background-color: #eef1ea !important;
+  color: var(--military-dark) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+}
+
+.el-table tr:hover > td {
+  background-color: rgba(45, 90, 39, 0.03) !important;
+}
+
+/* 输入框聚焦 */
+.el-input__wrapper {
+  border-radius: var(--radius-sm) !important;
+  transition: box-shadow var(--transition-fast) !important;
+}
+
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--military-primary) inset !important;
+}
+
+/* Select */
+.el-select__wrapper {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* 分页 */
+.el-pagination.is-background .el-pager li.is-active {
+  background-color: var(--military-primary) !important;
+}
+
+/* 面包屑 */
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: var(--military-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* 对话框 */
+.el-dialog {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+}
+
+.el-dialog__header {
+  background: linear-gradient(90deg, rgba(45, 90, 39, 0.06) 0%, rgba(196, 160, 0, 0.03) 100%) !important;
+  border-bottom: 2px solid var(--military-primary) !important;
+  padding: 16px 20px !important;
+}
+
+.el-dialog__title {
+  font-weight: 700 !important;
+  color: var(--military-dark) !important;
+  font-size: 16px !important;
+  letter-spacing: 1px;
+}
+
+/* Drawer */
+.el-drawer__header {
+  border-bottom: 2px solid var(--military-primary);
+  margin-bottom: 0 !important;
+  padding: 16px 20px !important;
+  background: linear-gradient(90deg, rgba(45, 90, 39, 0.06) 0%, transparent 100%);
+}
+
+.el-drawer__title {
+  font-weight: 700 !important;
+  color: var(--military-dark) !important;
+  font-size: 16px !important;
+  letter-spacing: 1px;
+}
+
+/* Tabs */
+.el-tabs__item.is-active {
+  color: var(--military-primary) !important;
+  font-weight: 700 !important;
+}
+
+.el-tabs__active-bar {
+  background-color: var(--military-primary) !important;
+  height: 3px !important;
+}
+
+.el-tabs__item:hover {
+  color: var(--military-primary-light) !important;
+}
+
+/* Empty */
+.el-empty__description p {
+  color: var(--military-text-secondary);
+}
+
+/* Timeline */
+.el-timeline-item__node--primary {
+  background-color: var(--military-primary) !important;
+}
+
+.el-timeline-item__node--success {
+  background-color: var(--military-success) !important;
+}
+
+.el-timeline-item__node--danger {
+  background-color: var(--military-danger) !important;
+}
+
+/* Alert */
+.el-alert {
+  border-radius: var(--radius-md) !important;
+}
+
+/* Form */
+.el-form-item__label {
+  font-weight: 500;
+  color: var(--military-text);
+}
+
+/* Descriptions */
+.el-descriptions__label {
+  font-weight: 600 !important;
+  color: var(--military-text-secondary) !important;
+  background-color: #f5f6f0 !important;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e8eae4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--military-primary);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--military-primary-light);
+}
+
+/* ===== 动画 ===== */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* ===== 工具类 ===== */
+.text-muted {
+  color: var(--military-text-secondary);
+}
+
+.text-primary {
+  color: var(--military-primary);
+}
+
+.text-accent {
+  color: var(--military-accent);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }

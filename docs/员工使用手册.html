@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>单位内部信息管理系统 — 员工使用手册</title>
+<style>
+/* ============ 全局样式 ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  color: #333; line-height: 1.8; font-size: 14px;
+  background: #fff;
+}
+@page { size: A4; margin: 20mm 15mm; }
+
+/* ============ 封面 ============ */
+.cover {
+  text-align: center; padding: 120px 40px 60px;
+  page-break-after: always;
+}
+.cover h1 { font-size: 32px; color: #1a1a1a; margin-bottom: 16px; }
+.cover .subtitle { font-size: 18px; color: #666; margin-bottom: 40px; }
+.cover .version {
+  display: inline-block; padding: 6px 20px;
+  background: #409eff; color: #fff; border-radius: 20px; font-size: 14px;
+}
+.cover .info { margin-top: 80px; color: #999; font-size: 13px; line-height: 2; }
+.cover .logo-area {
+  width: 100px; height: 100px; margin: 0 auto 30px;
+  background: #409eff; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 40px; font-weight: bold;
+}
+
+/* ============ 目录 ============ */
+.toc { page-break-after: always; padding: 40px 0; }
+.toc h2 { font-size: 24px; margin-bottom: 20px; color: #1a1a1a; border-bottom: 3px solid #409eff; padding-bottom: 10px; }
+.toc ul { list-style: none; }
+.toc li { padding: 6px 0; font-size: 14px; }
+.toc li.chapter { font-weight: bold; color: #409eff; margin-top: 10px; }
+.toc li.section { padding-left: 24px; color: #555; }
+
+/* ============ 章节 ============ */
+.chapter { page-break-before: always; }
+.chapter-title {
+  font-size: 22px; color: #1a1a1a; margin-bottom: 20px;
+  padding: 12px 16px; background: #f0f7ff;
+  border-left: 5px solid #409eff; border-radius: 4px;
+}
+.section-title {
+  font-size: 18px; color: #303133; margin: 24px 0 12px;
+  padding-bottom: 8px; border-bottom: 2px solid #e4e7ed;
+}
+.subsection-title { font-size: 16px; color: #303133; margin: 16px 0 8px; }
+
+p { margin-bottom: 10px; text-align: justify; }
+ul, ol { margin: 8px 0 12px 24px; }
+li { margin-bottom: 4px; }
+
+/* ============ 步骤 ============ */
+.steps { margin: 16px 0; }
+.step {
+  display: flex; margin-bottom: 12px;
+  padding: 12px 16px; background: #fafafa;
+  border-radius: 8px; border-left: 3px solid #67c23a;
+}
+.step-num {
+  flex-shrink: 0; width: 28px; height: 28px;
+  background: #67c23a; color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: bold; margin-right: 12px;
+}
+.step-content { flex: 1; }
+.step-content strong { color: #303133; }
+
+/* ============ 提示框 ============ */
+.tip {
+  margin: 12px 0; padding: 12px 16px;
+  background: #f0f9ff; border: 1px solid #d0e8ff; border-radius: 8px;
+}
+.tip::before { content: "💡 提示"; display: block; font-weight: bold; color: #409eff; margin-bottom: 4px; font-size: 13px; }
+
+.note {
+  margin: 12px 0; padding: 12px 16px;
+  background: #fff6e6; border: 1px solid #ffd9a0; border-radius: 8px;
+}
+.note::before { content: "⚠ 注意"; display: block; font-weight: bold; color: #e6a23c; margin-bottom: 4px; font-size: 13px; }
+
+.warn {
+  margin: 12px 0; padding: 12px 16px;
+  background: #fef0f0; border: 1px solid #fbc4c4; border-radius: 8px;
+}
+.warn::before { content: "❗ 重要"; display: block; font-weight: bold; color: #f56c6c; margin-bottom: 4px; font-size: 13px; }
+
+/* ============ UI 模拟 ============ */
+.ui-mock {
+  margin: 16px 0; border: 1px solid #dcdfe6; border-radius: 8px;
+  overflow: hidden; background: #f5f7fa;
+}
+.ui-mock-bar {
+  background: #409eff; color: #fff; padding: 8px 16px;
+  font-size: 13px; display: flex; align-items: center;
+}
+.ui-mock-bar .dots { margin-right: 12px; }
+.ui-mock-bar .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+.ui-mock-bar .dot.r { background: #ff5f57; }
+.ui-mock-bar .dot.y { background: #ffbd2e; }
+.ui-mock-bar .dot.g { background: #28ca42; }
+.ui-mock-body { padding: 16px; background: #fff; }
+
+/* 侧边栏模拟 */
+.mock-layout { display: flex; min-height: 200px; }
+.mock-sidebar { width: 160px; background: #001529; padding: 12px 8px; }
+.mock-sidebar .menu-item {
+  color: #b7bdc7; padding: 8px 12px; font-size: 12px;
+  border-radius: 4px; margin-bottom: 2px; cursor: pointer;
+}
+.mock-sidebar .menu-item.active { background: #409eff; color: #fff; }
+.mock-content { flex: 1; padding: 16px; background: #f0f2f5; }
+.mock-content .mock-card {
+  background: #fff; border-radius: 8px; padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 12px;
+}
+.mock-content .mock-card h4 { font-size: 14px; margin-bottom: 8px; }
+
+/* 按钮模拟 */
+.mock-btn {
+  display: inline-block; padding: 6px 16px; border-radius: 4px;
+  font-size: 12px; margin-right: 8px; cursor: pointer;
+}
+.mock-btn-primary { background: #409eff; color: #fff; }
+.mock-btn-success { background: #67c23a; color: #fff; }
+.mock-btn-warning { background: #e6a23c; color: #fff; }
+.mock-btn-danger { background: #f56c6c; color: #fff; }
+.mock-btn-default { background: #fff; color: #606266; border: 1px solid #dcdfe6; }
+
+/* 标签模拟 */
+.mock-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; margin-right: 4px;
+}
+.mock-tag-blue { background: #ecf5ff; color: #409eff; border: 1px solid #b3d8ff; }
+.mock-tag-green { background: #f0f9ff; color: #67c23a; border: 1px solid #b3e19d; }
+.mock-tag-orange { background: #fdf6ec; color: #e6a23c; border: 1px solid #f5dab1; }
+.mock-tag-red { background: #fef0f0; color: #f56c6c; border: 1px solid #fbc4c4; }
+.mock-tag-gray { background: #f4f4f5; color: #909399; border: 1px solid #d3d4d6; }
+
+/* 表格模拟 */
+.mock-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+.mock-table th { background: #f5f7fa; padding: 8px; text-align: left; border-bottom: 2px solid #e4e7ed; color: #909399; font-weight: normal; }
+.mock-table td { padding: 8px; border-bottom: 1px solid #ebeef5; }
+
+/* 流程图 */
+.flow-chart { display: flex; align-items: center; justify-content: center; margin: 20px 0; flex-wrap: wrap; gap: 4px; }
+.flow-node {
+  padding: 10px 16px; border-radius: 8px; text-align: center;
+  font-size: 13px; min-width: 100px;
+}
+.flow-start { background: #67c23a; color: #fff; }
+.flow-process { background: #409eff; color: #fff; }
+.flow-approve { background: #e6a23c; color: #fff; }
+.flow-end { background: #909399; color: #fff; }
+.flow-arrow { color: #c0c4cc; font-size: 18px; }
+
+/* 表单模拟 */
+.mock-form { background: #fff; padding: 16px; border-radius: 8px; }
+.mock-form-row { display: flex; margin-bottom: 12px; align-items: center; }
+.mock-form-label { width: 100px; text-align: right; color: #606266; font-size: 13px; padding-right: 12px; }
+.mock-form-input {
+  flex: 1; height: 32px; border: 1px solid #dcdfe6;
+  border-radius: 4px; padding: 0 12px; font-size: 13px; color: #606266;
+}
+.mock-form-select { flex: 1; height: 32px; border: 1px solid #dcdfe6; border-radius: 4px; padding: 0 12px; font-size: 13px; color: #606266; background: #fff; }
+
+/* ============ 表格 ============ */
+table.data-table {
+  width: 100%; border-collapse: collapse; margin: 12px 0;
+  font-size: 13px;
+}
+table.data-table th {
+  background: #409eff; color: #fff; padding: 10px;
+  text-align: left; font-weight: normal;
+}
+table.data-table td {
+  padding: 8px 10px; border-bottom: 1px solid #ebeef5;
+}
+table.data-table tr:nth-child(even) { background: #fafafa; }
+
+/* ============ 其他 ============ */
+.role-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 4px;
+  font-size: 12px; margin-right: 6px; color: #fff;
+}
+.role-super { background: #f56c6c; }
+.role-admin { background: #e6a23c; }
+.role-leader { background: #409eff; }
+.role-hr { background: #67c23a; }
+.role-finance { background: #9c27b0; }
+.role-person { background: #909399; }
+
+.page-break { page-break-before: always; }
+.text-center { text-align: center; }
+.text-primary { color: #409eff; }
+.text-success { color: #67c23a; }
+.text-warning { color: #e6a23c; }
+.text-danger { color: #f56c6c; }
+.text-muted { color: #909399; }
+strong { color: #303133; }
+code { background: #f5f7fa; padding: 2px 6px; border-radius: 3px; font-family: Consolas, monospace; font-size: 13px; color: #e6a23c; }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <div class="logo-area">管</div>
+  <h1>单位内部信息管理系统</h1>
+  <p class="subtitle">员工使用手册</p>
+  <div class="version">v3.0</div>
+  <div class="info">
+    <p>本手册适用于所有系统用户</p>
+    <p>包含：登录指引、功能操作、流程审批、智能表格、管理员操作</p>
+    <p>更新内容：智能表格（上传识别·字段标注·下发填写·收集导出）、安全加固、权限校验</p>
+    <p>编写日期：2026年8月</p>
+  </div>
+</div>
+
+<!-- ============ 目录 ============ -->
+<div class="toc">
+  <h2>目 录</h2>
+  <ul>
+    <li class="chapter">第一章 系统简介</li>
+    <li class="section">1.1 系统用途</li>
+    <li class="section">1.2 角色说明</li>
+    <li class="section">1.3 测试账号</li>
+
+    <li class="chapter">第二章 登录与首次使用</li>
+    <li class="section">2.1 如何登录系统</li>
+    <li class="section">2.2 首次登录修改密码</li>
+    <li class="section">2.3 密码安全策略</li>
+    <li class="section">2.4 账号锁定与解锁</li>
+    <li class="section">2.5 退出登录</li>
+
+    <li class="chapter">第三章 工作台首页</li>
+    <li class="section">3.1 首页功能概览</li>
+    <li class="section">3.2 快捷入口</li>
+
+    <li class="chapter">第四章 我的信息</li>
+    <li class="section">4.1 查看个人信息</li>
+    <li class="section">4.2 编辑个人信息</li>
+    <li class="section">4.3 上传简历智能填充（新增）</li>
+
+    <li class="chapter">第五章 流程审批系统</li>
+    <li class="section">5.1 流程概览与审批链路</li>
+    <li class="section">5.2 发起请假申请</li>
+    <li class="section">5.3 发起费用报销</li>
+    <li class="section">5.4 发起用章申请</li>
+    <li class="section">5.5 发起出差申请</li>
+    <li class="section">5.6 审批操作（领导/人事/财务）</li>
+    <li class="section">5.7 查看流程进度与撤回</li>
+
+    <li class="chapter">第六章 通知公告</li>
+    <li class="section">6.1 查看通知</li>
+    <li class="section">6.2 发布通知（管理员）</li>
+
+    <li class="chapter">第七章 待办事项</li>
+
+    <li class="chapter">第八章 智能表格（新增）</li>
+    <li class="section">8.1 功能概览</li>
+    <li class="section">8.2 上传文档与智能识别</li>
+    <li class="section">8.3 字段标注与配置</li>
+    <li class="section">8.4 下发填写任务</li>
+    <li class="section">8.5 填写表格（员工端）</li>
+    <li class="section">8.6 收集结果与导出</li>
+    <li class="section">8.7 退回与重新填写</li>
+
+    <li class="chapter">第九章 管理员功能</li>
+    <li class="section">9.1 账号管理（人事批量注册）</li>
+    <li class="section">9.2 简历批量导入智能建档（新增）</li>
+    <li class="section">9.3 人员档案管理</li>
+    <li class="section">9.4 组织架构管理</li>
+
+    <li class="chapter">第十章 常见问题</li>
+
+    <li class="chapter">附录 账号与流程速查表</li>
+  </ul>
+</div>
+
+<!-- ============ 第一章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第一章 系统简介</div>
+
+  <div class="section-title">1.1 系统用途</div>
+  <p>本系统是单位内部的综合信息管理平台，主要实现以下功能：</p>
+  <ul>
+    <li><strong>人员信息管理</strong>：管理全体人员的电子档案，包括基本信息、联系方式、职务信息、教育经历等</li>
+    <li><strong>智能简历识别</strong>：员工上传简历自动填充个人信息，人事批量导入简历一键建档+创建账号</li>
+    <li><strong>OA流程审批</strong>：在线发起和审批请假、报销、用章、出差等申请，实现无纸化办公</li>
+    <li><strong>智能表格</strong>：上传Word/Excel/PDF文档→系统智能识别字段→标注配置→下发给成员填写→自动收集汇总并原模板导出</li>
+    <li><strong>组织架构管理</strong>：管理单位的部门、岗位、职级体系</li>
+    <li><strong>通知公告</strong>：发布单位内部通知，跟踪已读未读状态</li>
+    <li><strong>待办事项</strong>：管理个人工作待办，支持优先级排序</li>
+    <li><strong>权限管理</strong>：基于角色的权限控制，不同角色看到不同功能和数据</li>
+  </ul>
+
+  <div class="section-title">1.2 角色说明</div>
+  <p>系统根据工作职责划分了以下角色，不同角色拥有不同的功能权限：</p>
+  <table class="data-table">
+    <tr><th>角色</th><th>标识</th><th>主要职责</th><th>可操作功能</th></tr>
+    <tr><td>超级管理员</td><td><span class="role-badge role-super">super_admin</span></td><td>系统最高管理</td><td>全部功能 + 系统配置</td></tr>
+    <tr><td>单位管理员</td><td><span class="role-badge role-admin">unit_admin</span></td><td>本单位管理</td><td>人员/账号/组织架构管理</td></tr>
+    <tr><td>部门领导</td><td><span class="role-badge role-leader">dept_leader</span></td><td>部门审批</td><td>审批本部门流程（第一道）</td></tr>
+    <tr><td>人事人员</td><td><span class="role-badge role-hr">hr</span></td><td>人事审批</td><td>审批请假流程（第二道）</td></tr>
+    <tr><td>财务人员</td><td><span class="role-badge role-finance">finance</span></td><td>财务审批</td><td>审批费用报销（第二道）</td></tr>
+    <tr><td>普通员工</td><td><span class="role-badge role-person">person</span></td><td>日常使用</td><td>发起流程、查看/编辑个人信息</td></tr>
+  </table>
+
+  <div class="section-title">1.3 测试账号</div>
+  <p>系统已创建以下测试账号，密码统一为 <code>test123</code>（默认超级管理员账号为 <code>admin</code>/<code>admin123</code>）。测试账号已跳过首次改密，可直接登录使用；默认管理员账号首次登录需强制修改为符合安全策略的强密码：</p>
+  <table class="data-table">
+    <tr><th>用户名</th><th>姓名</th><th>角色</th><th>所属部门</th><th>测试重点</th></tr>
+    <tr><td><code>leader</code></td><td>张局长</td><td>超级管理员</td><td>领导层</td><td>系统配置、出差终审</td></tr>
+    <tr><td><code>admin_01</code></td><td>李主任</td><td>单位管理员</td><td>办公室</td><td>账号管理、用章审批</td></tr>
+    <tr><td><code>bgs_leader</code></td><td>王科长</td><td>部门领导</td><td>办公室</td><td>第一道审批</td></tr>
+    <tr><td><code>hr_01</code></td><td>赵人事</td><td>人事人员</td><td>人事科</td><td>请假第二道审批</td></tr>
+    <tr><td><code>cw_01</code></td><td>孙会计</td><td>财务人员</td><td>财务科</td><td>报销第二道审批</td></tr>
+    <tr><td><code>office_01</code></td><td>周文员</td><td>普通员工</td><td>办公室</td><td>发起流程、完善信息</td></tr>
+    <tr><td><code>hr_02</code></td><td>吴干事</td><td>普通员工</td><td>人事科</td><td>发起流程</td></tr>
+    <tr><td><code>cw_02</code></td><td>郑出纳</td><td>普通员工</td><td>财务科</td><td>发起报销</td></tr>
+  </table>
+
+  <div class="tip">
+    建议使用 Chrome 或 Edge 浏览器访问系统，屏幕分辨率建议 1366×768 及以上。
+  </div>
+</div>
+
+<!-- ============ 第二章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第二章 登录与首次使用</div>
+
+  <div class="section-title">2.1 如何登录系统</div>
+  <p>打开浏览器，在地址栏输入系统地址即可进入登录页面。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-bar">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span>http://127.0.0.1:8000</span>
+    </div>
+    <div class="ui-mock-body" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 40px;">
+      <div style="max-width: 400px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="width: 60px; height: 60px; background: #409eff; border-radius: 12px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; font-weight: bold;">管</div>
+          <h3 style="color: #303133;">人员基本信息系统</h3>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <div style="height: 40px; border: 1px solid #dcdfe6; border-radius: 4px; padding: 0 12px; display: flex; align-items: center; color: #c0c4cc;">
+            <span style="margin-right: 8px;">👤</span> 用户名
+          </div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <div style="height: 40px; border: 1px solid #dcdfe6; border-radius: 4px; padding: 0 12px; display: flex; align-items: center; color: #c0c4cc;">
+            <span style="margin-right: 8px;">🔒</span> 密码
+          </div>
+        </div>
+        <div style="height: 40px; background: #409eff; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px;">
+          登 录
+        </div>
+        <div style="text-align: right; margin-top: 12px; color: #409eff; font-size: 13px;">
+          没有账号？去注册 →
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">打开浏览器（推荐 Chrome 或 Edge），在地址栏输入 <code>http://127.0.0.1:8000</code>，按回车键。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">在登录页面输入<strong>用户名</strong>（如 <code>office_01</code>）和<strong>密码</strong>（如 <code>test123</code>）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击蓝色的 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">登录</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">登录成功后，系统会自动跳转到<strong>工作台首页</strong>。</div>
+    </div>
+  </div>
+
+  <div class="note">
+    如果提示"用户名或密码错误"，请检查：①用户名拼写是否正确；②密码大小写是否正确；③账号是否已被停用。
+  </div>
+
+  <div class="section-title">2.2 首次登录修改密码</div>
+  <p>如果您的账号是<strong>人事管理员代为创建</strong>的，首次登录时系统会<strong>强制要求修改密码</strong>，修改后才能正常使用系统。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-bar">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span>首次登录 - 修改密码</span>
+    </div>
+    <div class="ui-mock-body" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 60px 40px;">
+      <div style="max-width: 380px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="font-size: 40px; margin-bottom: 8px;">🔑</div>
+          <h3 style="color: #303133;">首次登录 - 修改密码</h3>
+          <p style="color: #909399; font-size: 13px; margin-top: 4px;">您的账号使用初始密码登录，请设置新密码后继续使用</p>
+        </div>
+        <div style="height: 40px; border: 1px solid #dcdfe6; border-radius: 4px; padding: 0 12px; display: flex; align-items: center; color: #c0c4cc; margin-bottom: 12px;">
+          🔒 新密码（至少8位，含大小写/数字/特殊字符）
+        </div>
+        <div style="height: 40px; border: 1px solid #dcdfe6; border-radius: 4px; padding: 0 12px; display: flex; align-items: center; color: #c0c4cc; margin-bottom: 16px;">
+          🔒 确认新密码
+        </div>
+        <div style="height: 40px; background: #409eff; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px;">
+          确认修改
+        </div>
+        <div style="margin-top: 16px; padding: 8px 12px; background: #f4f4f5; border-radius: 4px; color: #909399; font-size: 12px; text-align: center;">
+          修改成功后将进入系统主页
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">输入<strong>新密码</strong>（至少8位，必须包含大写字母、小写字母、数字、特殊字符中的至少3种，不能包含常见弱密码如123456、password等）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">再次输入<strong>确认新密码</strong>（两次密码必须一致）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">确认修改</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">修改成功后，系统自动跳转到工作台首页，之后登录不再需要此步骤。</div>
+    </div>
+  </div>
+
+  <div class="warn">
+    首次登录不改密码<strong>无法使用系统任何功能</strong>。这是为了保护您的账号安全，防止初始密码被他人冒用。
+  </div>
+
+  <div class="section-title">2.3 密码安全策略</div>
+  <p>为保障账号安全，系统已实施以下密码安全策略：</p>
+  <table class="data-table">
+    <tr><th>策略项</th><th>规则</th><th>说明</th></tr>
+    <tr><td>密码长度</td><td>至少8位</td><td>少于8位不予通过</td></tr>
+    <tr><td>密码复杂度</td><td>大写字母、小写字母、数字、特殊字符中至少包含3种</td><td>如 Abc@1234、Pass#2026</td></tr>
+    <tr><td>弱密码检测</td><td>不能包含123456、password、abc123等常见弱密码片段</td><td>系统自动拦截</td></tr>
+    <tr><td>密码历史</td><td>新密码不能与最近5次使用过的密码相同</td><td>防止循环使用旧密码</td></tr>
+    <tr><td>密码过期</td><td>90天未修改密码将强制改密</td><td>登录时自动跳转改密页面</td></tr>
+    <tr><td>首次登录强制改密</td><td>人事创建的账号首次登录必须改密</td><td>不改密无法使用任何功能</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>密码示例：</strong>合格的密码如 <code>Work@2026</code>（含大写、小写、数字、特殊字符）、<code>Hello#123</code>。不合格的如 <code>12345678</code>（只有数字）、<code>abcdefgh</code>（只有小写字母）。
+  </div>
+
+  <div class="section-title">2.4 账号锁定与解锁</div>
+  <p>系统已启用账号保护机制，防止暴力破解：</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>连续5次</strong>输入错误密码，账号将被<strong>自动锁定30分钟</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">锁定期间无法登录，系统提示"账号已锁定，请X分钟后重试"。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">30分钟后自动解锁，可重新尝试登录。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">登录成功后，失败计数自动清零。</div>
+    </div>
+  </div>
+
+  <div class="warn">
+    如果账号被锁定，请等待30分钟后重试。如急需使用，请联系管理员在后台手动重置。
+  </div>
+
+  <p>系统会记录所有登录尝试（包括失败的），包含登录IP、时间、失败原因，用于安全审计。</p>
+
+  <div class="section-title">2.5 退出登录</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击页面右上角的<strong>用户头像/用户名</strong>区域。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">在下拉菜单中点击 <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 10px;">退出登录</span>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">系统返回登录页面。</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div style="display: flex; justify-content: flex-end; align-items: center; padding: 8px 16px; background: #fff; border-bottom: 1px solid #e4e7ed;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 4px 12px; background: #f5f7fa; border-radius: 4px;">
+          <div style="width: 28px; height: 28px; background: #409eff; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px;">周</div>
+          <span style="font-size: 13px;">office_01</span>
+          <span class="mock-tag mock-tag-gray">普通员工</span>
+          <span style="color: #c0c4cc;">▼</span>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+        <div style="width: 160px; border: 1px solid #e4e7ed; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="padding: 8px 16px; font-size: 13px; color: #606266;">🔒 修改密码</div>
+          <div style="padding: 8px 16px; font-size: 13px; color: #f56c6c; border-top: 1px solid #f0f0f0;">⏻ 退出登录</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第三章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第三章 工作台首页</div>
+
+  <div class="section-title">3.1 首页功能概览</div>
+  <p>登录后首先进入的是工作台首页，这里展示了与您相关的关键信息和快捷操作入口。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-bar">
+      <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+      <span>工作台 - 人员基本信息系统</span>
+    </div>
+    <div class="ui-mock-body">
+      <div class="mock-layout">
+        <div class="mock-sidebar">
+          <div style="color:#fff; font-size:12px; text-align:center; padding:8px 0; margin-bottom:8px;">≡ 人员信息系统</div>
+          <div class="menu-item active">📊 工作台</div>
+          <div class="menu-item">👤 我的信息</div>
+          <div class="menu-item">🔔 通知公告</div>
+          <div class="menu-item">📋 待办事项</div>
+          <div class="menu-item">⚙ 流程审批</div>
+          <div class="menu-item">📄 智能表格</div>
+        </div>
+        <div class="mock-content">
+          <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+            <div class="mock-card" style="flex:1; text-align:center;">
+              <div style="font-size:28px; color:#409eff;">3</div>
+              <div style="font-size:12px; color:#909399;">待我审批</div>
+            </div>
+            <div class="mock-card" style="flex:1; text-align:center;">
+              <div style="font-size:28px; color:#e6a23c;">5</div>
+              <div style="font-size:12px; color:#909399;">待办事项</div>
+            </div>
+            <div class="mock-card" style="flex:1; text-align:center;">
+              <div style="font-size:28px; color:#67c23a;">2</div>
+              <div style="font-size:12px; color:#909399;">未读通知</div>
+            </div>
+          </div>
+          <div class="mock-card">
+            <h4>快捷操作</h4>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <span class="mock-btn mock-btn-primary" style="font-size:11px;">📝 发起请假</span>
+              <span class="mock-btn mock-btn-success" style="font-size:11px;">💰 发起报销</span>
+              <span class="mock-btn mock-btn-warning" style="font-size:11px;">stamp 用章申请</span>
+              <span class="mock-btn mock-btn-danger" style="font-size:11px;">✈ 出差申请</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>工作台首页包含以下区域：</p>
+  <table class="data-table">
+    <tr><th>区域</th><th>说明</th></tr>
+    <tr><td>左侧菜单栏</td><td>显示您有权访问的功能菜单，不同角色看到的菜单不同</td></tr>
+    <tr><td>顶部导航栏</td><td>显示面包屑导航、用户名、角色标签，点击用户名可修改密码或退出</td></tr>
+    <tr><td>数据卡片</td><td>显示待我审批数、待办事项数、未读通知数，点击可快速跳转</td></tr>
+    <tr><td>快捷操作</td><td>提供发起各类流程的快捷按钮，一键进入申请表单</td></tr>
+  </table>
+
+  <div class="section-title">3.2 快捷入口</div>
+  <p>在工作台首页的"快捷操作"区域，可以直接点击按钮发起相应流程：</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">找到"快捷操作"卡片。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击对应的按钮（如 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 10px;">发起请假</span>），系统直接跳转到流程发起页面。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">也可以通过左侧菜单 <strong>「流程审批」</strong> 进入发起流程。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第四章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第四章 我的信息</div>
+
+  <div class="section-title">4.1 查看个人信息</div>
+  <p>点击左侧菜单的 <strong>「我的信息」</strong>，可以查看您的个人档案信息。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-layout">
+        <div class="mock-sidebar">
+          <div class="menu-item">📊 工作台</div>
+          <div class="menu-item active">👤 我的信息</div>
+          <div class="menu-item">🔔 通知公告</div>
+          <div class="menu-item">📋 待办事项</div>
+          <div class="menu-item">⚙ 流程审批</div>
+          <div class="menu-item">📄 智能表格</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4>个人档案</h4>
+              <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">编辑我的信息</span>
+            </div>
+            <table class="mock-table">
+              <tr><td style="width:100px;color:#909399;">姓名</td><td>周文员</td><td style="width:100px;color:#909399;">性别</td><td>男</td></tr>
+              <tr><td style="color:#909399;">出生日期</td><td>1990-01-01</td><td style="color:#909399;">民族</td><td>汉族</td></tr>
+              <tr><td style="color:#909399;">身份证号</td><td>110101********1239</td><td style="color:#909399;">政治面貌</td><td>群众</td></tr>
+              <tr><td style="color:#909399;">手机号码</td><td>13800000006</td><td style="color:#909399;">办公电话</td><td>-</td></tr>
+              <tr><td style="color:#909399;">所属单位</td><td>测试单位-XX局办公室</td><td style="color:#909399;">部门</td><td>办公室</td></tr>
+              <tr><td style="color:#909399;">岗位</td><td>科员</td><td style="color:#909399;">职级</td><td>二级科员</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>个人信息分为以下几类：</p>
+  <table class="data-table">
+    <tr><th>信息类别</th><th>包含字段</th><th>谁可以修改</th></tr>
+    <tr><td>基本信息</td><td>姓名、性别、出生日期、民族、籍贯、身份证号、政治面貌</td><td>管理员创建，员工可补充</td></tr>
+    <tr><td>联系方式</td><td>手机号码、办公电话、紧急联系人、家庭住址</td><td>员工自行维护</td></tr>
+    <tr><td>职务信息</td><td>所属单位、部门、岗位、职级、参加工作日期</td><td>管理员维护</td></tr>
+    <tr><td>教育信息</td><td>学历、学位、毕业院校、专业、毕业日期</td><td>员工自行补充</td></tr>
+    <tr><td>家庭情况</td><td>婚姻状况、配偶姓名、子女数量</td><td>员工自行补充</td></tr>
+  </table>
+
+  <div class="section-title">4.2 编辑个人信息</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在"我的信息"页面，点击右上角 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">编辑我的信息</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">页面进入编辑模式，可修改的字段会变成可输入的文本框。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">修改完成后，点击页面底部的 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">保存</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">系统提示"保存成功"，信息更新完成。</div>
+    </div>
+  </div>
+
+  <div class="note">
+    带有 <span class="mock-tag mock-tag-gray">管理员维护</span> 标记的字段（如岗位、职级、所属单位等）由单位管理员统一管理，员工无法自行修改。如需变更，请联系人事管理员。
+  </div>
+
+  <div class="section-title page-break">4.3 上传简历智能填充（新增）</div>
+  <p>系统内置<strong>智能简历识别引擎</strong>，您可以将自己的简历文件（.docx 或 .xlsx 格式）上传到系统，系统会自动提取其中的姓名、身份证、学历、联系方式、家庭成员等信息，一键填充到您的个人档案中，无需手动逐个输入。</p>
+
+  <div class="tip">
+    <strong>支持的简历格式</strong>：Word 文档（.docx）和 Excel 表格（.xlsx）。无论是纯段落排版的简历，还是表格格式的标准档案表，系统都能识别。<strong>暂不支持 .doc 旧版 Word 和 PDF 格式</strong>，请另存为 .docx 后再上传。
+  </div>
+
+  <div class="subsection-title">操作步骤</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在"我的信息"页面顶部，找到并点击 <span class="mock-btn mock-btn-success" style="font-size:11px;padding:3px 12px;">上传简历自动填充</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">系统弹出"上传简历自动填充"对话框。将您的简历文件<strong>拖拽到虚线框内</strong>，或<strong>点击虚线框</strong>在文件夹中选择简历文件。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">选中文件后，点击对话框右下角的 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">智能识别</span> 按钮。系统将在后台解析简历内容，几秒钟即可完成。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">识别完成后，弹出"简历识别结果"预览页面：</div>
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>基本信息</strong>（将填充到表单）：列出系统识别到的字段及其对应的值，如"姓名：张三、身份证号：110101199001011234、学历：本科"等</li>
+    <li><strong>家庭成员</strong>：如识别到多条家庭成员记录，将以表格形式展示（姓名、关系、工作单位等）</li>
+    <li><strong>教育经历</strong>：识别到的教育经历将列表展示（起止日期、学校、专业、学历等）</li>
+    <li><strong>工作经历</strong>：识别到的工作履历（起止日期、单位、职务等）</li>
+    <li>预览页面顶部会显示识别到的字段数量和子表记录数量，供您参考识别完整性</li>
+  </ul>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">根据预览结果，选择下列操作之一：</div>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <tr><th>操作按钮</th><th>说明</th><th>适用场景</th></tr>
+    <tr>
+      <td><span class="mock-btn mock-btn-warning" style="font-size:11px;padding:3px 12px;">仅填充空字段</span></td>
+      <td>只把当前您个人档案中<strong>为空</strong>的字段用简历识别值填充，已经填写过的字段保留原值不覆盖</td>
+      <td>您之前已经填写过部分信息，只想用简历补齐<strong>还没填</strong>的字段（推荐大多数情况使用）</td>
+    </tr>
+    <tr>
+      <td><span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">覆盖已有值并保存</span></td>
+      <td>所有识别到的字段<strong>全部覆盖</strong>到个人档案中，不管原值是什么，都以简历识别结果为准</td>
+      <td>您之前没有填过信息，或确认简历上的信息比现有档案更准确更完整</td>
+    </tr>
+    <tr>
+      <td><span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">取消</span></td>
+      <td>放弃本次识别结果，档案保持不变</td>
+      <td>识别结果错误太多，或您希望重新上传一份简历</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <strong>识别准确性说明</strong>：智能识别采用关键字+位置+正则混合引擎，识别率大致在70%—95%之间，取决于简历格式是否规范。<strong>保存前请务必核对识别结果</strong>，对于未识别或识别错误的字段，后续仍可通过"编辑我的信息"手动修正。
+  </div>
+  <div class="warn">
+    对于<strong>职务信息</strong>（岗位、职级、所属单位等），由于属于管理员维护字段，即使简历识别到了，也<strong>不会自动填充</strong>，会忽略。如有错误请联系人事管理员调整。
+  </div>
+</div>
+
+<!-- ============ 第五章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第五章 流程审批系统</div>
+
+  <div class="section-title">5.1 流程概览与审批链路</div>
+  <p>系统目前支持四类OA流程，每类流程都有固定的审批链路：</p>
+
+  <div class="subsection-title">请假申请审批流程</div>
+  <div class="flow-chart">
+    <div class="flow-node flow-start">员工发起</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">王科长<br><small>部门审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-approve">赵人事<br><small>人事审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">完成</div>
+  </div>
+
+  <div class="subsection-title">费用报销审批流程</div>
+  <div class="flow-chart">
+    <div class="flow-node flow-start">员工发起</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">王科长<br><small>部门审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-approve">孙会计<br><small>财务审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">完成</div>
+  </div>
+
+  <div class="subsection-title">用章申请审批流程</div>
+  <div class="flow-chart">
+    <div class="flow-node flow-start">员工发起</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">王科长<br><small>部门审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-approve">李主任<br><small>办公室主任审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">完成</div>
+  </div>
+
+  <div class="subsection-title">出差申请审批流程</div>
+  <div class="flow-chart">
+    <div class="flow-node flow-start">员工发起</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">王科长<br><small>部门审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-approve">张局长<br><small>分管领导审批</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">完成</div>
+  </div>
+
+  <div class="tip">
+    每一道审批都需要审批人登录系统操作。审批人可以在"待我审批"标签页中看到等待自己审批的流程。
+  </div>
+
+  <!-- 5.2 请假 -->
+  <div class="section-title page-break">5.2 发起请假申请</div>
+  <p>请假申请适用于年假、事假、病假、调休、婚假、产假等各类请假。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击左侧菜单 <strong>「流程审批」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击右上角 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发起流程</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">在流程模板列表中选择 <strong>「请假申请」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">填写请假表单：</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-form">
+        <div class="mock-form-row">
+          <div class="mock-form-label">流程标题：</div>
+          <div class="mock-form-input" style="color:#606266;">周文员的请假申请</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">请假类型：</div>
+          <div class="mock-form-select">年假 ▼</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">开始日期：</div>
+          <div class="mock-form-input" style="color:#606266;">2026-08-12</div>
+          <div class="mock-form-label" style="width:80px;">结束日期：</div>
+          <div class="mock-form-input" style="color:#606266;">2026-08-14</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">请假天数：</div>
+          <div class="mock-form-input" style="color:#606266;">3</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">请假事由：</div>
+          <div class="mock-form-input" style="height:60px;color:#606266;">家中有事，需请假3天处理...</div>
+        </div>
+        <div style="text-align:right; margin-top:12px;">
+          <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">取消</span>
+          <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交申请</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps" style="margin-top:12px;">
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content"><strong>流程标题</strong>：填写一个便于识别的标题，如"周文员的请假申请"。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content"><strong>请假类型</strong>：从下拉菜单选择（年假/事假/病假/调休/婚假/产假）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-content"><strong>开始/结束日期</strong>：点击日期框选择，支持选择年月日。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-content"><strong>请假天数</strong>：填写实际请假天数（包括半天）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">9</div>
+      <div class="step-content"><strong>请假事由</strong>：简要说明请假原因。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">10</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交申请</span>，系统提示提交成功。</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    提交后，流程会自动流转到第一道审批人（王科长）。您可以在"我发起的"标签页查看流程进度。
+  </div>
+
+  <!-- 5.3 报销 -->
+  <div class="section-title page-break">5.3 发起费用报销</div>
+  <p>费用报销适用于差旅费、招待费、办公采购、培训费等各类费用报销。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">进入 <strong>「流程审批」</strong> → <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发起流程</span> → 选择 <strong>「费用报销」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">填写报销表单：</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-form">
+        <div class="mock-form-row">
+          <div class="mock-form-label">流程标题：</div>
+          <div class="mock-form-input" style="color:#606266;">差旅费报销-济南出差</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">费用类型：</div>
+          <div class="mock-form-select">差旅费 ▼</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">报销金额：</div>
+          <div class="mock-form-input" style="color:#606266;">2580.00</div>
+          <div class="mock-form-label" style="width:80px;">费用日期：</div>
+          <div class="mock-form-input" style="color:#606266;">2026-08-10</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">费用说明：</div>
+          <div class="mock-form-input" style="height:60px;color:#606266;">济南出差3天，含住宿费、交通费、餐饮补贴...</div>
+        </div>
+        <div style="text-align:right; margin-top:12px;">
+          <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">取消</span>
+          <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交申请</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="data-table" style="margin-top:12px;">
+    <tr><th>字段</th><th>说明</th><th>是否必填</th></tr>
+    <tr><td>费用类型</td><td>差旅费/招待费/办公采购/培训费/其他</td><td>是</td></tr>
+    <tr><td>报销金额</td><td>填写实际报销金额（元）</td><td>是</td></tr>
+    <tr><td>费用发生日期</td><td>费用产生的日期</td><td>是</td></tr>
+    <tr><td>费用说明</td><td>详细说明费用产生的原因和构成</td><td>是</td></tr>
+  </table>
+
+  <!-- 5.4 用章 -->
+  <div class="section-title">5.4 发起用章申请</div>
+  <p>用章申请适用于需要使用单位公章、合同章、财务章、法人章的场景。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">进入 <strong>「流程审批」</strong> → <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发起流程</span> → 选择 <strong>「用章申请」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">填写用章表单：</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-form">
+        <div class="mock-form-row">
+          <div class="mock-form-label">流程标题：</div>
+          <div class="mock-form-input" style="color:#606266;">合同盖章申请-XX项目</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">用章类型：</div>
+          <div class="mock-form-select">合同章 ▼</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">文件名称：</div>
+          <div class="mock-form-input" style="color:#606266;">XX项目采购合同</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">用章事由：</div>
+          <div class="mock-form-input" style="height:60px;color:#606266;">与XX公司签订采购合同，需要加盖合同章...</div>
+        </div>
+        <div style="text-align:right; margin-top:12px;">
+          <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">取消</span>
+          <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交申请</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.5 出差 -->
+  <div class="section-title">5.5 发起出差申请</div>
+  <p>出差申请适用于因公出差的审批。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">进入 <strong>「流程审批」</strong> → <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发起流程</span> → 选择 <strong>「出差申请」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">填写出差表单：</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-form">
+        <div class="mock-form-row">
+          <div class="mock-form-label">流程标题：</div>
+          <div class="mock-form-input" style="color:#606266;">出差申请-济南调研</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">出差目的地：</div>
+          <div class="mock-form-input" style="color:#606266;">山东省济南市</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">出发日期：</div>
+          <div class="mock-form-input" style="color:#606266;">2026-08-15</div>
+          <div class="mock-form-label" style="width:80px;">返回日期：</div>
+          <div class="mock-form-input" style="color:#606266;">2026-08-17</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">预计费用：</div>
+          <div class="mock-form-input" style="color:#606266;">2000.00</div>
+        </div>
+        <div class="mock-form-row">
+          <div class="mock-form-label">出差事由：</div>
+          <div class="mock-form-input" style="height:60px;color:#606266;">赴济南进行信息化建设调研，与XX单位交流经验...</div>
+        </div>
+        <div style="text-align:right; margin-top:12px;">
+          <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">取消</span>
+          <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交申请</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.6 审批 -->
+  <div class="section-title page-break">5.6 审批操作（领导/人事/财务）</div>
+  <p>当有流程需要您审批时，系统会在工作台首页的"待我审批"数量上提示。审批操作步骤如下：</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">登录系统后，点击左侧菜单 <strong>「流程审批」</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <strong>「待我审批」</strong> 标签页，可以看到所有等待您审批的流程列表。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击列表中的流程标题，查看流程详情和申请人填写的表单内容。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">在详情页面底部，可以看到审批操作区域。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">在<strong>审批意见</strong>输入框中填写您的审批意见。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-success" style="font-size:11px;padding:3px 12px;">同意</span>、<span class="mock-btn mock-btn-danger" style="font-size:11px;padding:3px 12px;">拒绝</span> 或 <span class="mock-btn mock-btn-warning" style="font-size:11px;padding:3px 12px;">退回修改</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-content">系统提示审批成功，流程自动流转到下一审批人或结束。</div>
+    </div>
+  </div>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div style="padding: 12px 0;">
+        <h4 style="margin-bottom:12px;">审批时间轴</h4>
+        <div style="display:flex; flex-direction:column; gap:0; margin-bottom:16px;">
+          <div style="display:flex; gap:12px; padding-bottom:16px; border-left:2px solid #67c23a; margin-left:8px; padding-left:16px;">
+            <div style="width:12px;height:12px;background:#67c23a;border-radius:50%;margin-top:4px;"></div>
+            <div>
+              <div style="font-size:13px;"><strong>周文员</strong> 发起申请</div>
+              <div style="font-size:12px;color:#909399;">2026-08-11 09:30 | 请假类型：年假，天数：3天</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; padding-bottom:16px; border-left:2px solid #67c23a; margin-left:8px; padding-left:16px;">
+            <div style="width:12px;height:12px;background:#67c23a;border-radius:50%;margin-top:4px;"></div>
+            <div>
+              <div style="font-size:13px;"><strong>王科长</strong> 审批通过</div>
+              <div style="font-size:12px;color:#909399;">2026-08-11 10:15 | 意见：同意请假</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; padding-left:16px; border-left:2px solid #409eff; margin-left:8px;">
+            <div style="width:12px;height:12px;background:#409eff;border-radius:50%;margin-top:4px;"></div>
+            <div>
+              <div style="font-size:13px;"><strong>赵人事</strong> 审批中</div>
+              <div style="font-size:12px;color:#409eff;">等待审批...</div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top:1px solid #ebeef5; padding-top:12px;">
+          <div style="margin-bottom:8px;">
+            <div style="font-size:13px;color:#606266;margin-bottom:4px;">审批意见：</div>
+            <div style="height:60px;border:1px solid #dcdfe6;border-radius:4px;padding:8px 12px;color:#c0c4cc;font-size:13px;">请输入审批意见...</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="mock-btn mock-btn-danger" style="font-size:11px;padding:4px 16px;">拒绝</span>
+            <span class="mock-btn mock-btn-warning" style="font-size:11px;padding:4px 16px;">退回修改</span>
+            <span class="mock-btn mock-btn-success" style="font-size:11px;padding:4px 16px;">同意</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>审批人注意事项：</strong>
+    <ul style="margin-top:4px;">
+      <li>审批意见为必填项，请简要说明同意、拒绝或退回的理由</li>
+      <li>点击"拒绝"后，流程立即终止，申请人需要重新发起</li>
+      <li>点击"退回修改"后，流程不终止，申请人收到通知修改表单后重新提交，流程从当前节点继续审批（不需从头开始）</li>
+      <li>审批操作不可撤销，请确认后再点击</li>
+    </ul>
+  </div>
+
+  <!-- 5.7 查看 -->
+  <div class="section-title">5.7 查看流程进度与撤回</div>
+  <p>发起流程后，您可以随时查看流程的当前进度和审批历史。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">进入 <strong>「流程审批」</strong> → <strong>「我发起的」</strong> 标签页。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">可以看到您发起的所有流程，包括当前状态：</div>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <tr><th>状态</th><th>标签颜色</th><th>含义</th></tr>
+    <tr><td>审批中</td><td><span class="mock-tag mock-tag-blue">审批中</span></td><td>流程正在审批中，等待某位审批人处理</td></tr>
+    <tr><td>已通过</td><td><span class="mock-tag mock-tag-green">已通过</span></td><td>所有审批人均已同意，流程完成</td></tr>
+    <tr><td>已拒绝</td><td><span class="mock-tag mock-tag-red">已拒绝</span></td><td>某位审批人拒绝了申请</td></tr>
+    <tr><td>待修改</td><td><span class="mock-tag mock-tag-orange">待修改</span></td><td>审批人退回要求修改，申请人修改后可重新提交</td></tr>
+    <tr><td>已撤回</td><td><span class="mock-tag mock-tag-gray">已撤回</span></td><td>申请人自行撤回了申请</td></tr>
+  </table>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击流程标题，可查看完整的<strong>审批时间轴</strong>，包括每个节点的审批人、审批时间、审批意见。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">如果流程还在审批中，可以点击 <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">撤回</span> 按钮撤回申请。</div>
+    </div>
+  </div>
+
+  <div class="warn">
+    流程一旦被审批人处理（同意或拒绝），就<strong>无法再撤回</strong>。只能在审批人尚未处理时撤回。
+  </div>
+</div>
+
+<!-- ============ 第六章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第六章 通知公告</div>
+
+  <div class="section-title">6.1 查看通知</div>
+  <p>点击左侧菜单 <strong>「通知公告」</strong> 可以查看单位发布的各类通知。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-layout">
+        <div class="mock-sidebar">
+          <div class="menu-item">📊 工作台</div>
+          <div class="menu-item">👤 我的信息</div>
+          <div class="menu-item active">🔔 通知公告</div>
+          <div class="menu-item">📋 待办事项</div>
+          <div class="menu-item">⚙ 流程审批</div>
+          <div class="menu-item">📄 智能表格</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <table class="mock-table">
+              <tr><th>标题</th><th>分类</th><th>发布时间</th><th>状态</th></tr>
+              <tr><td>关于开展年度考核工作的通知</td><td><span class="mock-tag mock-tag-blue">通知</span></td><td>2026-08-10</td><td><span class="mock-tag mock-tag-orange">未读</span></td></tr>
+              <tr><td>2026年端午节放假安排</td><td><span class="mock-tag mock-tag-green">公告</span></td><td>2026-08-08</td><td><span class="mock-tag mock-tag-gray">已读</span></td></tr>
+              <tr><td>信息化建设征求意见</td><td><span class="mock-tag mock-tag-orange">新闻</span></td><td>2026-08-05</td><td><span class="mock-tag mock-tag-gray">已读</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击通知标题进入详情页，查看完整内容。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">阅读后，系统自动将通知标记为"已读"。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">可以使用顶部的搜索框按标题搜索，或按分类筛选。</div>
+    </div>
+  </div>
+
+  <div class="section-title">6.2 发布通知（管理员）</div>
+  <div class="warn">此功能仅限<strong>单位管理员</strong>和<strong>超级管理员</strong>使用。</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">进入"通知公告"页面，点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发布公告</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">填写通知标题、内容、分类（通知/公告/新闻），选择是否置顶。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">发布</span>，通知立即推送给本单位所有人员。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第七章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第七章 待办事项</div>
+
+  <p>待办事项是个人工作管理工具，帮助您记录和跟踪需要完成的工作任务。</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div class="mock-layout">
+        <div class="mock-sidebar">
+          <div class="menu-item">📊 工作台</div>
+          <div class="menu-item">👤 我的信息</div>
+          <div class="menu-item">🔔 通知公告</div>
+          <div class="menu-item active">📋 待办事项</div>
+          <div class="menu-item">⚙ 流程审批</div>
+          <div class="menu-item">📄 智能表格</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div>
+                <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 10px;">全部</span>
+                <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 10px;">待办</span>
+                <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 10px;">已完成</span>
+              </div>
+              <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">+ 新增待办</span>
+            </div>
+            <table class="mock-table">
+              <tr><th>标题</th><th>优先级</th><th>截止日期</th><th>状态</th><th>操作</th></tr>
+              <tr><td>整理8月份考勤表</td><td><span class="mock-tag mock-tag-red">高</span></td><td>2026-08-15</td><td><span class="mock-tag mock-tag-orange">待办</span></td><td>✓ 完成</td></tr>
+              <tr><td>准备季度工作汇报</td><td><span class="mock-tag mock-tag-orange">中</span></td><td>2026-08-20</td><td><span class="mock-tag mock-tag-orange">待办</span></td><td>✓ 完成</td></tr>
+              <tr><td>更新通讯录</td><td><span class="mock-tag mock-tag-gray">低</span></td><td>2026-08-30</td><td><span class="mock-tag mock-tag-gray">已完成</span></td><td>-</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>新增待办</strong>：点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">新增待办</span>，填写标题、优先级（高/中/低）、截止日期。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>完成待办</strong>：点击待办事项后面的 <span class="mock-tag mock-tag-green">✓ 完成</span>，事项移至"已完成"列表。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>筛选</strong>：点击顶部的"全部/待办/已完成"按钮切换查看。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>删除</strong>：在已完成的事项上点击删除按钮可彻底移除。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第八章 智能表格 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第八章 智能表格（新增）</div>
+
+  <p>智能表格是本系统的核心新增功能，旨在解决传统收表场景中的效率低、汇总难、格式乱等问题。通过"上传文档→智能识别→字段标注→下发填写→自动收集→原模板导出"的全流程，实现表单收集的数字化和无纸化。</p>
+
+  <div class="section-title">8.1 功能概览</div>
+  <p>点击左侧菜单 <strong>「智能表格」</strong> 进入功能页面，页面顶部有蓝色提示条说明整体流程，下方为两个标签页：</p>
+
+  <table class="data-table">
+    <tr><th>标签页</th><th>说明</th><th>适用对象</th></tr>
+    <tr><td>我创建的表格</td><td>显示您上传创建的智能表单列表，可进行下发、查看收集结果、删除等操作</td><td>所有有权限的用户</td></tr>
+    <tr><td>待我填写</td><td>显示别人下发给您的填写任务，默认进入此页</td><td>所有用户</td></tr>
+  </table>
+
+  <div class="flow-chart">
+    <div class="flow-node flow-start">上传文档</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">智能识别</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">字段标注</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-approve">下发任务</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">员工填写</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">收集导出</div>
+  </div>
+
+  <div class="tip">
+    系统支持 <strong>Word(.docx)、Excel(.xlsx/.xls)、PDF(.pdf)</strong> 三种文档格式。上传后系统自动识别文档中的占位符和表格内容，生成可填写的字段列表。
+  </div>
+
+  <!-- 8.2 上传识别 -->
+  <div class="section-title page-break">8.2 上传文档与智能识别</div>
+  <p>在"我创建的表格"标签页，点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">上传文档识别</span> 按钮，打开上传识别对话框。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>选择文档</strong>：将文档拖拽到虚线框内，或点击虚线框选择文件。一次只能上传一个文件。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">上传并智能识别</span> 按钮，系统在后台解析文档内容，几秒钟即可完成。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">识别完成后，对话框下方会显示"确认/修改字段配置"区域，左侧为识别到的字段列表，右侧为文档预览（标注模式）。</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>识别能力说明</strong>：系统采用"占位符 + 表格结构"双策略识别。对于 Word 中的 <code>{{姓名}}</code>、<code>[姓名]</code>、<code>__姓名__</code> 等占位符格式可自动识别；对于纯表格文档，系统会分析表格结构提取可能的填写字段。识别率约 70%~90%，未识别到的字段可通过手动标注补充。
+  </div>
+
+  <!-- 8.3 字段标注 -->
+  <div class="section-title">8.3 字段标注与配置</div>
+  <p>识别完成后，您可以在"确认/修改字段配置"区域对字段进行调整。这是确保表单填写正确的关键步骤。</p>
+
+  <div class="subsection-title">字段列表说明</div>
+  <table class="data-table">
+    <tr><th>列名</th><th>说明</th></tr>
+    <tr><td>来源</td><td><span class="mock-tag mock-tag-blue">自动</span> 表示系统识别的字段；<span class="mock-tag mock-tag-green">手动</span> 表示手动标注的字段</td></tr>
+    <tr><td>字段名</td><td>可编辑，填写该字段的名称（如"姓名"、"联系电话"）</td></tr>
+    <tr><td>类型</td><td>可选择：文本、数字、日期、多行、单选、下拉</td></tr>
+    <tr><td>自动填充</td><td>可选择绑定系统人员档案字段（如姓名→自动填入员工姓名），员工填写时无需手动输入</td></tr>
+    <tr><td>绑定位置</td><td><span class="mock-tag mock-tag-green">已绑定</span> 表示该字段已对应到文档中的具体单元格；<span class="mock-tag mock-tag-orange">未绑定</span> 表示仅有占位符匹配</td></tr>
+    <tr><td>必填</td><td>勾选后，员工提交时该字段不能为空</td></tr>
+  </table>
+
+  <div class="subsection-title">手动标注操作</div>
+  <p>在右侧文档预览区（标注模式），您可以直接点击文档中的单元格来添加或删除字段：</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div style="display:flex; gap:16px;">
+        <div style="flex:1;">
+          <div style="background:#f5f7fa; padding:12px; border-radius:8px;">
+            <div style="font-size:13px; font-weight:bold; margin-bottom:8px;">📌 标注操作指南：</div>
+            <div style="font-size:12px; margin-bottom:4px;"><span style="display:inline-block; width:12px; height:12px; background:#fff; border:2px dashed #409eff; border-radius:2px; margin-right:4px;"></span>蓝色虚线 = 空白单元格，点击可创建字段</div>
+            <div style="font-size:12px; margin-bottom:4px;"><span style="display:inline-block; width:12px; height:12px; background:#fffdf5; border:2px dashed #e6a23c; border-radius:2px; margin-right:4px;"></span>橙色虚线 = 含占位符文本，点击可创建字段</div>
+            <div style="font-size:12px; margin-bottom:4px;"><span style="display:inline-block; width:12px; height:12px; background:#f0f9ff; border:2px solid #67c23a; border-radius:2px; margin-right:4px;"></span>绿色实线 = 已标注字段，点击可删除</div>
+            <div style="font-size:12px;"><span style="display:inline-block; width:12px; height:12px; background:#fef0f0; border:2px solid #f56c6c; border-radius:2px; margin-right:4px;"></span>红色 = 字段标签单元格，点击可自动标注右侧/下方</div>
+          </div>
+        </div>
+        <div style="flex:1; background:#fff; border:1px solid #dcdfe6; border-radius:8px; padding:12px;">
+          <div style="font-size:13px; font-weight:bold; margin-bottom:8px;">文档预览示意</div>
+          <table class="mock-table" style="font-size:11px;">
+            <tr><td style="background:#fef0f0; border:1px solid #f56c6c;">姓名</td><td style="background:#fff5cc; border:2px solid #67c23a;">张三</td><td style="background:#fef0f0; border:1px solid #f56c6c;">性别</td><td style="background:#fff; border:2px dashed #409eff;"></td></tr>
+            <tr><td style="background:#fef0f0; border:1px solid #f56c6c;">部门</td><td style="background:#fff5cc; border:2px solid #67c23a;">办公室</td><td style="background:#fef0f0; border:1px solid #f56c6c;">电话</td><td style="background:#fff; border:2px dashed #409eff;"></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>添加字段</strong>：点击右侧文档中的蓝色虚线或橙色虚线单元格，系统自动在左侧字段列表添加一条记录，并标注为"手动"来源。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>快捷标注</strong>：点击红色标签单元格（如"姓名"），系统自动标注其右侧或下方的单元格为填写字段。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>删除字段</strong>：点击绿色实线单元格（已标注字段），可取消该字段标注。也可在左侧列表中点击"删除"按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>配置自动填充</strong>：在字段列表的"自动填充"列，选择对应的系统档案字段（如"姓名"→绑定"人员档案.姓名"），员工填写时系统自动填入。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content"><strong>设置标题并保存</strong>：在"③ 设置标题并保存"区域填写表格标题，点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">保存表单</span>，完成智能表单的创建。</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>自动填充</strong>是智能表格的核心亮点。通过绑定系统人员档案字段，员工打开表单时，姓名、性别、出生日期、部门、岗位、入职日期等信息会自动填入，减少约 80% 的重复录入工作量。
+  </div>
+
+  <!-- 8.4 下发 -->
+  <div class="section-title page-break">8.4 下发填写任务</div>
+  <p>保存表单后，可以在"我创建的表格"列表中看到该表单。点击 <span class="mock-btn mock-btn-success" style="font-size:11px;padding:3px 12px;">下发</span> 按钮打开下发对话框。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>填写任务标题</strong>：为本次下发设置一个标题（如"8月份工资条确认"）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>选择发放对象</strong>：支持按部门、岗位、个人或全体成员多种方式定向发放。可多选。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>设置截止时间</strong>（选填）：设置后，超时未提交的任务会标红提示。不设则无时间限制。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>填写下发备注</strong>（选填）：为填写人提供填写说明或注意事项。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">确认下发</span>，系统为每个发放对象创建一条填写任务。</div>
+    </div>
+  </div>
+
+  <div class="note">
+    下发后，每位被选中的成员登录系统后，在"智能表格 → 待我填写"标签页中会看到新的填写任务。同一个人可被多次下发，每次下发都是独立的任务。
+  </div>
+
+  <!-- 8.5 填写 -->
+  <div class="section-title">8.5 填写表格（员工端）</div>
+  <p>进入 <strong>「智能表格」</strong> 后默认显示"待我填写"标签页，列出所有分配给您的填写任务。</p>
+
+  <table class="data-table">
+    <tr><th>任务状态</th><th>标签颜色</th><th>含义</th><th>可操作</th></tr>
+    <tr><td>待填写</td><td><span class="mock-tag mock-tag-blue">待填写</span></td><td>新下发的任务，尚未填写</td><td>填写</td></tr>
+    <tr><td>已提交</td><td><span class="mock-tag mock-tag-green">已提交</span></td><td>已填写并提交</td><td>查看填写、下载原模板</td></tr>
+    <tr><td>已退回</td><td><span class="mock-tag mock-tag-orange">已退回</span></td><td>被下发人退回要求修改</td><td>重新填写</td></tr>
+  </table>
+
+  <div class="subsection-title">填写操作步骤</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在"待我填写"列表中，找到状态为"待填写"或"已退回"的任务，点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">填写</span>（或"重新填写"）按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">进入填写页面，右侧显示原始文档预览。其中<strong>黄色高亮单元格</strong>为可填写区域，其他部分只读不可修改。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">绑定了系统档案的字段会<strong>自动填充</strong>（如姓名、部门等），无需手动输入。如有需要可修改自动填充的内容。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">点击黄色单元格，直接输入内容即可。输入后单元格会显示填写的内容。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">填写完成后，点击底部的 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">提交</span> 按钮。系统提示提交成功。</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    提交后任务状态变为"已提交"，任务仍然保留在列表中（不会消失）。此时可以：
+    <ul style="margin-top:4px;">
+      <li>点击 <span class="mock-btn mock-btn-default" style="font-size:11px;padding:2px 8px;">查看填写</span> 以只读模式查看已提交的内容</li>
+      <li>点击 <span class="mock-btn mock-btn-success" style="font-size:11px;padding:2px 8px;">下载原模板</span> 下载填好内容的原始Word/Excel文件（仅在有源文件时可下载）</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    如果任务被退回，状态变为"已退回"，可点击"重新填写"修改后再次提交。退回原因会显示在任务列表中。
+  </div>
+
+  <!-- 8.6 收集导出 -->
+  <div class="section-title page-break">8.6 收集结果与导出</div>
+  <p>在"我创建的表格"列表中，点击 <span class="mock-btn mock-btn-default" style="font-size:11px;padding:3px 12px;">收集结果</span> 按钮，进入该表单的下发记录页面。</p>
+
+  <div class="subsection-title">下发记录列表</div>
+  <p>每次下发对应一条记录，显示任务标题、下发时间、提交进度（如 5/8）等。点击某条记录可进入详细收集结果页。</p>
+
+  <div class="subsection-title">收集结果详情</div>
+  <table class="data-table">
+    <tr><th>功能</th><th>说明</th></tr>
+    <tr><td>提交进度</td><td>实时显示"已提交 XX / 总人数 N"，退回后自动 -1，重新提交后自动 +1</td></tr>
+    <tr><td>填写详情</td><td>表格形式展示每位填写人的各项字段值，点击可单独查看某人提交</td></tr>
+    <tr><td>退回操作</td><td>对已提交的成员可执行"退回"，需填写退回原因</td></tr>
+    <tr><td>关闭收集</td><td>点击"关闭收集"可结束本次下发，不再接受新的提交</td></tr>
+  </table>
+
+  <div class="subsection-title">两种导出方式</div>
+  <table class="data-table">
+    <tr><th>导出方式</th><th>说明</th><th>输出格式</th></tr>
+    <tr>
+      <td>汇总Excel导出</td>
+      <td>一张Excel表包含所有填写人的字段值，每行一个人，便于统计分析</td>
+      <td>.xlsx</td>
+    </tr>
+    <tr>
+      <td>原模板批量导出</td>
+      <td>每人一份原格式Word/Excel文件，填写内容回填到原文档对应位置，保持原排版，打包ZIP下载</td>
+      <td>.zip（含多个.docx/.xlsx）</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <strong>原模板导出</strong>是本功能的亮点：员工提交的信息会准确回填到原文档的对应单元格中，保留原字体、样式、页眉页脚，无需二次排版即可直接打印存档。
+  </div>
+
+  <div class="note">
+    <strong>权限说明</strong>：仅任务的<strong>下发人</strong>或<strong>超级管理员</strong>可以查看收集结果、退回任务、导出数据。其他人员无权操作。
+  </div>
+
+  <!-- 8.7 退回 -->
+  <div class="section-title">8.7 退回与重新填写</div>
+  <p>下发人在收集结果中发现填写错误或漏填时，可以将已提交的任务退回给填写人。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在收集结果详情页，找到需要退回的填写人。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-warning" style="font-size:11px;padding:3px 12px;">退回</span> 按钮，弹出退回对话框。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">填写<strong>退回原因</strong>（如"联系电话为空，请补充"），点击确认。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">系统自动将该任务状态改为"已退回"，提交进度自动 -1。填写人在"待我填写"中会看到退回原因。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">填写人修改后重新提交，提交进度自动 +1，恢复为"已提交"状态。</div>
+    </div>
+  </div>
+
+  <div class="flow-chart">
+    <div class="flow-node flow-start">待填写</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">已提交</div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node flow-approve">已退回</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-process">重新填写</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node flow-end">已提交</div>
+  </div>
+
+  <div class="tip">
+    退回→重新提交流程形成闭环，提交进度会自动更新。退回操作仅下发人可执行，填写人无法自行退回。
+  </div>
+</div>
+
+<!-- ============ 第九章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第九章 管理员功能</div>
+  <div class="warn">本章功能仅限<strong>单位管理员</strong>和<strong>超级管理员</strong>使用。普通员工无需阅读本章。</div>
+
+  <div class="section-title">9.1 账号管理（人事批量注册）</div>
+  <p>这是人事管理员的核心功能，用于为单位员工创建系统账号。</p>
+
+  <div class="subsection-title">功能入口</div>
+  <p>点击左侧菜单 <strong>「账号管理」</strong>，进入账号管理页面，包含四个标签页：</p>
+
+  <div class="ui-mock">
+    <div class="ui-mock-body">
+      <div style="display:flex; gap:4px; margin-bottom:12px; border-bottom:2px solid #e4e7ed;">
+        <div style="padding:8px 16px; border-bottom:2px solid #409eff; color:#409eff; font-size:13px;">📋 名单管理</div>
+        <div style="padding:8px 16px; color:#909399; font-size:13px;">📦 批量创建</div>
+        <div style="padding:8px 16px; color:#909399; font-size:13px;">📄 简历导入</div>
+        <div style="padding:8px 16px; color:#909399; font-size:13px;">👥 账号列表</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-title">标签页一：名单管理</div>
+  <p>名单是员工注册账号的基础。人事管理员需要先维护名单，然后才能为名单中的员工创建账号。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在"名单管理"标签页，可以查看本单位所有人员的名单。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">手动添加名单</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">在弹出对话框中输入<strong>姓名</strong>和<strong>身份证号</strong>，选择<strong>所属单位</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">点击确定，名单添加成功。未注册的名单项会显示 <span class="mock-tag mock-tag-gray">未注册</span> 标签。</div>
+    </div>
+  </div>
+
+  <div class="subsection-title">标签页二：批量创建账号</div>
+  <p>选择多个未注册的员工，一次性为他们创建系统账号。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">切到"批量创建"标签页，选择单位。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">下方显示该单位所有<strong>未注册</strong>的名单，勾选要创建账号的员工。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">选择<strong>密码模式</strong>：</div>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <tr><th>密码模式</th><th>说明</th><th>适用场景</th></tr>
+    <tr><td>身份证后6位</td><td>系统自动取员工身份证号后6位作为初始密码</td><td>推荐，员工自己知道</td></tr>
+    <tr><td>统一密码</td><td>自定义一个初始密码，所有选中的员工使用相同密码</td><td>临时统一密码，如 abc123</td></tr>
+  </table>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">批量创建</span> 按钮。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">系统弹出结果窗口，显示每个员工的<strong>用户名</strong>和<strong>初始密码</strong>。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">请截图或记录下来，通知员工使用该账号密码登录系统。</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    创建账号后，员工首次登录时系统会<strong>强制要求修改密码</strong>，所以初始密码可以告知员工，安全上没有问题。
+  </div>
+
+  <div class="subsection-title">标签页三：账号列表</div>
+  <p>管理已创建的员工账号，包括重置密码、启用/停用。</p>
+
+  <table class="data-table">
+    <tr><th>操作</th><th>说明</th></tr>
+    <tr><td>重置密码</td><td>员工忘记密码时，人事可重置。可自定义新密码或留空使用身份证后6位。重置后员工需重新首次改密。</td></tr>
+    <tr><td>启用/停用</td><td>员工离职时停用账号，停用后该账号无法登录。可随时重新启用。</td></tr>
+  </table>
+
+  <div class="subsection-title">标签页四：简历导入</div>
+  <p>（新增功能）将员工简历文件批量上传，系统<strong>自动识别</strong>简历中的姓名、身份证、学历等信息，同时完成<strong>创建人员档案 + 创建系统账号</strong>两步操作，无需手动逐个录入。</p>
+
+  <div class="tip">
+    <strong>支持的文件格式</strong>：仅支持 <code>.docx</code>（Word新版）和 <code>.xlsx</code>（Excel新版）。一份文件对应一位员工，可同时上传多份。<strong>不支持 .doc 旧版 Word 与 PDF</strong>，请提前转换格式。
+  </div>
+
+  <div class="subsection-title">准备工作</div>
+  <ol>
+    <li>确认所有员工简历都已保存为 .docx 或 .xlsx 格式，文件名尽量包含员工姓名便于后续核对</li>
+    <li>确认简历中至少包含<strong>"姓名"和"身份证号"</strong>两个字段，否则系统无法完成建档</li>
+    <li>如某批员工都在<strong>同一个部门/同一种岗位</strong>，可在页面上设置"统一部门"和"统一岗位"，系统会自动填入</li>
+  </ol>
+
+  <div class="subsection-title">操作步骤</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">在"简历导入"标签页顶部，依次设置：</div>
+    </div>
+  </div>
+  <ul>
+    <li><strong>选择单位</strong>：超级管理员需手动选择目标单位；单位管理员自动绑定本单位</li>
+    <li><strong>统一部门（选填）</strong>：如这批员工都在同一部门，在此填入，会统一写入档案。留空则使用简历中的部门信息</li>
+    <li><strong>统一岗位（选填）</strong>：如这批员工都是同一种岗位，在此填入。留空则使用简历中的岗位信息</li>
+    <li><strong>密码模式</strong>：与批量创建账号一致
+      <ul>
+        <li><strong>身份证后6位（推荐）</strong>：取识别到的身份证号后6位作为初始密码</li>
+        <li><strong>统一密码</strong>：自定义一个固定密码，所有账号使用相同初始密码</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">拖拽所有简历文件到页面中间的<strong>虚线框</strong>内，或点击虚线框一次性选择多个文件。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">（推荐）上传完成后，点击下方 <span class="mock-btn mock-btn-warning" style="font-size:11px;padding:3px 12px;">预览识别结果</span> 按钮。系统会先对所有简历做一次识别，并弹出一个预览窗口，逐份展示识别出的字段。请重点核对：</div>
+    </div>
+  </div>
+  <ul>
+    <li>姓名、身份证号是否识别正确（这两个字段错误会导致创建失败）</li>
+    <li>学历、联系方式等关键字段是否识别到</li>
+    <li>家庭成员、教育经历是否为空（如有识别但内容偏少，通常是简历未写全，不影响创建）</li>
+  </ul>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        预览确认无误后，在预览弹窗底部点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">确认无误，一键创建账号</span>；或在主页面直接点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">一键创建账号</span>。
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">系统逐个处理简历，完成后弹出"批量创建结果"窗口，展示成功列表和失败列表：</div>
+    </div>
+  </div>
+  <ul>
+    <li><strong>成功</strong>：显示员工姓名、系统自动生成的用户名、初始密码。请截图保存并告知每位员工</li>
+    <li><strong>失败</strong>：显示姓名、身份证、失败原因（常见原因：身份证号已存在、身份证格式错误、文件无法解析等）</li>
+  </ul>
+
+  <div class="note">
+    <strong>常见失败原因排查</strong>：<br>
+    ① 身份证号已存在 → 说明该员工已建档/已创建账号，无需重复导入<br>
+    ② 身份证格式校验失败 → 检查简历中身份证号是否少写一位或写错字符<br>
+    ③ 未识别到姓名 → 简历中没有"姓名："字样，建议在简历开头加上明确的"姓名：XXX"<br>
+    ④ 文件解析失败 → 文件可能损坏，用 Word/Excel 打开另存为后重新上传
+  </div>
+
+  <div class="section-title page-break">9.3 人员档案管理</div>
+  <p>点击左侧菜单 <strong>「人员管理」</strong>，可以管理本单位所有人员的档案信息。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>查看列表</strong>：进入人员管理页面，显示所有人员列表，支持按姓名搜索。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>新增人员</strong>：点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">新增人员</span>，在弹出的对话框中填写信息（4个标签页：基本信息/联系方式/职务信息/教育家庭）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>查看详情</strong>：点击列表中的姓名，进入人员详情页，查看完整档案。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>编辑人员</strong>：在详情页点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">编辑</span>，修改信息后保存。</div>
+    </div>
+  </div>
+
+  <div class="section-title">9.4 组织架构管理</div>
+  <p>组织架构管理包括部门管理、岗位管理、职级管理三个模块。</p>
+
+  <div class="subsection-title">部门管理</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击 <strong>「部门管理」</strong>，左侧显示部门树形结构。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">新增部门</span>，填写部门名称，选择上级部门。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">点击部门节点可以编辑或删除（有下级部门的不能删除）。</div>
+    </div>
+  </div>
+
+  <div class="subsection-title">岗位管理</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击 <strong>「岗位管理」</strong>，显示岗位列表。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">新增岗位</span>，填写岗位名称和类别。</div>
+    </div>
+  </div>
+
+  <div class="subsection-title">职级管理</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">点击 <strong>「职级管理」</strong>，显示职级列表（按等级排序）。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">点击 <span class="mock-btn mock-btn-primary" style="font-size:11px;padding:3px 12px;">新增职级</span>，填写职级名称和等级数字。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第九章 ============ -->
+<div class="chapter">
+  <div class="chapter-title">第十章 常见问题</div>
+
+  <div class="section-title">Q1：忘记密码怎么办？</div>
+  <p>请联系本单位的<strong>人事管理员</strong>，在"账号管理 → 账号列表"中为您重置密码。重置后初始密码为身份证后6位，登录后需重新设置密码。</p>
+
+  <div class="section-title">Q2：登录后看不到某些菜单？</div>
+  <p>不同角色拥有不同的菜单权限。普通员工可以看到"工作台、我的信息、通知公告、待办事项、流程审批、智能表格"6个菜单。如果您认为需要更多权限，请联系管理员调整角色。</p>
+
+  <div class="section-title">Q3：发起的流程一直没人审批？</div>
+  <p>请确认审批人账号是否正常（未停用）。您可以在"我发起的"列表查看流程当前停在哪个审批节点，然后线下提醒该审批人登录系统处理。</p>
+
+  <div class="section-title">Q4：审批时点错了同意/拒绝怎么办？</div>
+  <p>审批操作<strong>不可撤销</strong>。如果误操作，请联系发起人重新发起流程，或在下一环节进行纠正。</p>
+
+  <div class="section-title">Q5：如何修改已提交的申请？</div>
+  <p>有两种方式：</p>
+  <ul>
+    <li><strong>审批人尚未处理：</strong>可以自行"撤回"后重新发起。</li>
+    <li><strong>审批人退回修改：</strong>流程状态变为"待修改"时，在"我发起的"列表中点击该流程，修改表单内容后点击"重新提交"即可。流程会从被退回的节点继续审批，不需要从头开始。</li>
+  </ul>
+
+  <div class="section-title">Q6：登录提示"账号已锁定"怎么办？</div>
+  <p>连续5次输入错误密码后，账号会自动锁定30分钟。请等待30分钟后重试，或联系管理员在后台重置密码。登录成功后失败计数会自动清零。</p>
+
+  <div class="section-title">Q7：修改密码时提示"密码强度不够"？</div>
+  <p>密码必须满足以下要求：①至少8位；②包含大写字母、小写字母、数字、特殊字符中的至少3种；③不能包含123456、password等常见弱密码片段；④不能与最近5次使用过的密码相同。建议使用如 <code>Work@2026</code> 这样的强密码。</p>
+
+  <div class="section-title">Q8：请假时提示"余额不足"？</div>
+  <p>系统会自动检查您的年假、婚假、产假、丧假等假期余额。如果剩余天数不够申请天数，将无法提交。事假和病假不检查余额。如需调整余额，请联系人事管理员。</p>
+
+  <div class="section-title">Q9：系统在浏览器中打不开？</div>
+  <p>请检查：① 是否已双击 <code>启动服务.bat</code> 启动服务（需看到命令行窗口显示"Uvicorn running on http://0.0.0.0:8000"）；② 地址是否正确（<code>http://127.0.0.1:8000</code>）；③ 尝试清除浏览器缓存后重新访问；④ 单位内网部署时，请使用服务器IP地址访问（如 <code>http://192.168.x.x:8000</code>）。</p>
+
+  <div class="section-title">Q10：为什么有些字段不能修改？</div>
+  <p>职务信息（岗位、职级、所属单位、部门等）由管理员统一维护，员工无法自行修改。如需变更，请联系人事管理员处理。</p>
+
+  <div class="section-title">Q11：离职员工的账号怎么处理？</div>
+  <p>人事管理员在"账号管理 → 账号列表"中点击该员工的 <span class="mock-btn mock-btn-warning" style="font-size:11px;padding:3px 10px;">停用</span> 按钮，停用后该账号无法登录，但历史数据保留。如需重新启用，点击"启用"即可。</p>
+
+  <div class="section-title">Q12：上传简历后识别结果不准确怎么办？</div>
+  <p>智能识别无法做到100%准确，识别率取决于简历排版是否规范。建议：</p>
+  <ul>
+    <li>确保简历中使用标准的字段标签，如"姓名：张三"而不是"我叫张三"</li>
+    <li>简历尽量使用表格形式或段落式标签排版，避免纯文字简历</li>
+    <li>Word 请保存为 .docx 格式（2007及以上版本），不要使用 .doc 旧格式</li>
+    <li>如果是 PDF 简历，请先转换为 .docx 再上传</li>
+    <li>识别后请务必在预览页面核对关键信息（姓名、身份证、联系方式等），不准确的字段先取消应用，后续手动修改更正</li>
+  </ul>
+
+  <div class="section-title">Q13：人事批量导入简历时个别文件识别失败怎么办？</div>
+  <p>对于识别失败的简历，可以：</p>
+  <ul>
+    <li>先查看批量创建结果中的<strong>失败原因</strong>，根据提示修正简历内容</li>
+    <li>打开该简历文件，检查是否含有"姓名"和"身份证号"字段，如没有请添加</li>
+    <li>把简历另存为最新的 .docx 格式后重新上传</li>
+    <li>如果始终无法识别，可以使用"名单管理 → 单个创建账号 + 手动建档"的方式兜底处理</li>
+  </ul>
+
+  <div class="section-title">Q14：智能表格上传文档后识别不到字段怎么办？</div>
+  <p>系统采用"占位符 + 表格结构"双策略识别，识别率约 70%~90%。如果自动识别结果较少，可以通过以下方式补充：</p>
+  <ul>
+    <li>在标注模式中手动点击文档中的单元格添加字段（蓝色虚线=空白可点击，红色标签=自动标注右侧/下方）</li>
+    <li>Word 文档建议使用标准占位符格式，如 <code>{{姓名}}</code>、<code>[姓名]</code>、<code>__姓名__</code></li>
+    <li>确保文档使用表格排版，纯段落文字的识别率较低</li>
+    <li>PDF 文档建议由 Word 另存为 PDF（而非扫描件），扫描件识别率很低</li>
+  </ul>
+
+  <div class="section-title">Q15：填写任务提交后发现填错了怎么办？</div>
+  <p>提交后无法自行修改，需要联系任务下发人，在收集结果中将您的任务<strong>退回</strong>。退回后您的任务状态变为"已退回"，可以点击"重新填写"修改后再次提交。</p>
+
+  <div class="section-title">Q16：下载原模板按钮是灰色的怎么办？</div>
+  <p>如果按钮显示灰色且提示"该表单无原始模板，无法下载"，说明该表单创建时未同步上传源文件（可能是通过API创建的早期表单）。此时仍可点击"查看填写"在线查看已提交的内容，但无法下载原格式文件。建议联系表单创建人重新上传文档创建新表单。</p>
+
+  <div class="section-title">Q17：智能表格的提交进度数字不准确？</div>
+  <p>提交进度是实时计算的：每当有人提交时 +1，被退回时 -1，重新提交时 +1。如果数字异常，请刷新页面。如果仍有问题，请联系管理员检查后台数据。</p>
+
+  <div class="section-title">Q18：谁能查看收集结果和导出数据？</div>
+  <p>只有<strong>任务下发人</strong>本人和<strong>超级管理员</strong>可以查看收集结果、退回任务、导出数据。其他人员即使能看到该表单，也无法查看他人的填写内容或导出数据。这确保了填写信息的安全性。</p>
+</div>
+
+<!-- ============ 附录 ============ -->
+<div class="chapter">
+  <div class="chapter-title">附录 账号与流程速查表</div>
+
+  <div class="section-title">测试账号速查表</div>
+  <p>测试账号（密码 <code>test123</code>）已跳过首次改密，可直接登录；默认管理员 <code>admin</code>（密码 <code>admin123</code>）首次登录需强制修改强密码。</p>
+  <table class="data-table">
+    <tr><th>用户名</th><th>姓名</th><th>初始密码</th><th>角色</th><th>部门</th></tr>
+    <tr><td><code>leader</code></td><td>张局长</td><td>test123</td><td>超级管理员</td><td>领导层</td></tr>
+    <tr><td><code>admin</code></td><td>系统管理员</td><td>admin123</td><td>超级管理员</td><td>-</td></tr>
+    <tr><td><code>admin_01</code></td><td>李主任</td><td>test123</td><td>单位管理员</td><td>办公室</td></tr>
+    <tr><td><code>bgs_leader</code></td><td>王科长</td><td>test123</td><td>部门领导</td><td>办公室</td></tr>
+    <tr><td><code>hr_01</code></td><td>赵人事</td><td>test123</td><td>人事人员</td><td>人事科</td></tr>
+    <tr><td><code>cw_01</code></td><td>孙会计</td><td>test123</td><td>财务人员</td><td>财务科</td></tr>
+    <tr><td><code>office_01</code></td><td>周文员</td><td>test123</td><td>普通员工</td><td>办公室</td></tr>
+    <tr><td><code>hr_02</code></td><td>吴干事</td><td>test123</td><td>普通员工</td><td>人事科</td></tr>
+    <tr><td><code>cw_02</code></td><td>郑出纳</td><td>test123</td><td>普通员工</td><td>财务科</td></tr>
+  </table>
+
+  <div class="section-title">流程审批链路速查表</div>
+  <p>审批人现已改为<strong>动态匹配</strong>：系统根据申请人所在部门，自动找到对应的部门负责人、人事、财务等角色进行审批。</p>
+  <table class="data-table">
+    <tr><th>流程类型</th><th>第一道审批</th><th>第二道审批</th><th>匹配规则</th></tr>
+    <tr><td>请假申请</td><td>部门负责人</td><td>人事人员</td><td>申请人部门.manager → hr角色用户</td></tr>
+    <tr><td>费用报销</td><td>部门负责人</td><td>财务人员</td><td>申请人部门.manager → finance角色用户</td></tr>
+    <tr><td>用章申请</td><td>部门负责人</td><td>单位管理员</td><td>申请人部门.manager → 本单位管理员</td></tr>
+    <tr><td>出差申请</td><td>部门负责人</td><td>超级管理员</td><td>申请人部门.manager → 超级管理员</td></tr>
+  </table>
+  <div class="tip">只要每个部门在组织架构中设置了负责人，审批人就会自动匹配，无需手动维护每个部门的审批流程。</div>
+
+  <div class="section-title">功能权限速查表</div>
+  <table class="data-table">
+    <tr><th>功能</th><th>普通员工</th><th>部门领导</th><th>人事/财务</th><th>单位管理员</th><th>超级管理员</th></tr>
+    <tr><td>工作台</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>我的信息</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>发起流程</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>审批流程</td><td>❌</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>通知公告</td><td>查看</td><td>查看</td><td>查看</td><td>查看+发布</td><td>查看+发布</td></tr>
+    <tr><td>待办事项</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>智能表格（填写）</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>智能表格（创建/下发/导出）</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>人员管理</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
+    <tr><td>账号管理</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
+    <tr><td>组织架构</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
+    <tr><td>角色权限</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td></tr>
+    <tr><td>单位管理</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>✅</td></tr>
+  </table>
+
+  <div style="text-align:center; margin-top:40px; color:#909399; font-size:12px;">
+    <p>— 本手册完 —</p>
+    <p>如有疑问，请联系系统管理员</p>
+  </div>
+</div>
+
+</body>
+</html>

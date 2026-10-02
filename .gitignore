@@ -1,0 +1,36 @@
+# ===== 敏感文件 =====
+*.db
+*.sqlite3
+*.log
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+
+# ===== 大模型文件 =====
+backend/storage/models/
+backend/storage/attachments/
+backend/storage/knowledge_base/chromadb/
+backend/storage/backups/
+
+# ===== 前端构建产物 =====
+frontend/dist/
+frontend/node_modules/
+node_modules/
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== 系统 =====
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ===== 临时文件 =====
+*_tmp.py
+*_result.txt
+*_test.txt

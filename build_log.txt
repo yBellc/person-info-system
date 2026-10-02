@@ -1,0 +1,22 @@
+[OK] Node.js already installed: E:\工作工作\text\person-info-system\tools\node\node.exe
+[OK] Node.js version: v20.18.0
+[INFO] Working directory: E:\工作工作\text\person-info-system\frontend
+[INFO] Running Vite build...
+[INFO] Build output:
+[INFO]   [2mdist/[22m[36massets/PositionManage-a0Da-a8I.js             [39m[1m[2m    6.56 kB[22m[1m[22m[2m │ gzip:   2.69 kB[22m
+[INFO]   [2mdist/[22m[36massets/TodoList-ywJhYfmF.js                   [39m[1m[2m    6.89 kB[22m[1m[22m[2m │ gzip:   2.82 kB[22m
+[INFO]   [2mdist/[22m[36massets/CustomFields-BVUQFH74.js               [39m[1m[2m    6.90 kB[22m[1m[22m[2m │ gzip:   2.87 kB[22m
+[INFO]   [2mdist/[22m[36massets/NoticeList-i0j9HDrc.js                 [39m[1m[2m    7.88 kB[22m[1m[22m[2m │ gzip:   3.07 kB[22m
+[INFO]   [2mdist/[22m[36massets/Dashboard-s7P74Fx_.js                  [39m[1m[2m    8.42 kB[22m[1m[22m[2m │ gzip:   3.10 kB[22m
+[INFO]   [2mdist/[22m[36massets/PersonFormDialog-Bxk8ZeoE.js           [39m[1m[2m   10.06 kB[22m[1m[22m[2m │ gzip:   2.86 kB[22m
+[INFO]   [2mdist/[22m[36massets/MyProfile-DmDAyvvR.js                  [39m[1m[2m   10.11 kB[22m[1m[22m[2m │ gzip:   4.56 kB[22m
+[INFO]   [2mdist/[22m[36massets/ReportTemplates-kOR13ySZ.js            [39m[1m[2m   11.09 kB[22m[1m[22m[2m │ gzip:   4.97 kB[22m
+[INFO]   [2mdist/[22m[36massets/RoleManage-CVnEPdCd.js                 [39m[1m[2m   18.47 kB[22m[1m[22m[2m │ gzip:   5.39 kB[22m
+[INFO]   [2mdist/[22m[36massets/ResumeImport-VKP0Fra1.js               [39m[1m[2m   20.04 kB[22m[1m[22m[2m │ gzip:   7.30 kB[22m
+[INFO]   [2mdist/[22m[36massets/HrAccountManage-pw0TXPVK.js            [39m[1m[2m   25.95 kB[22m[1m[22m[2m │ gzip:   7.82 kB[22m
+[INFO]   [2mdist/[22m[36massets/WorkflowList-mQIXs8qD.js               [39m[1m[2m   26.82 kB[22m[1m[22m[2m │ gzip:   8.60 kB[22m
+[INFO]   [2mdist/[22m[36massets/index.esm.min-DIvzLNps.js              [39m[1m[33m  501.82 kB[39m[22m[2m │ gzip: 169.49 kB[22m
+[INFO]   [2mdist/[22m[36massets/index-DxAqOVQq.js                      [39m[1m[33m1,249.59 kB[39m[22m[2m │ gzip: 405.51 kB[22m
+[INFO]   [32m✓ built in 20.95s[39m
+[OK] Build SUCCESSFUL! 51 asset files generated in dist/assets/
+[OK] index.html found in dist/
